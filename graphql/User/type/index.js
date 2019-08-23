@@ -74,6 +74,7 @@ module.exports.inputFields = {
         email: {type: NonNull(GraphQLString)},
         password: {type: NonNull(GraphQLString)},
         companyId: {type: NonNull(GraphQLID)},
+        jobTitle: {type: GraphQLString},
         departmentId: {type: GraphQLID},
         siteId: {type: GraphQLID},
         teamId: {type: GraphQLID}

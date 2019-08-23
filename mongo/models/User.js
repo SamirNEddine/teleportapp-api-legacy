@@ -57,14 +57,9 @@ const validation = data => {
         firstName: Joi.string().min(2).required(),
         lastName: Joi.string().min(2).required(),
         email: Joi.string().min(6).required().email(),
-        password: Joi.string().min(24).required(),
-        companyId: Joi.string().min(10).required(),
-        jobTitle: Joi.string().min(2).optional(),
-        profilePicture: Joi.string().min(10).optional(),
-        departmentId: Joi.string().min(10).required(),
-        siteId: Joi.string().min(10).required(),
-        teamId: Joi.string().min(10).required()
-    });
+        password: Joi.string().min(8).required(),
+        companyId: Joi.required()
+    }).unknown();
     return Joi.validate(data, schema);
 };
 

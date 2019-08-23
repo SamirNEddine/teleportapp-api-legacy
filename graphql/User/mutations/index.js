@@ -1,15 +1,20 @@
-const { UserType, inputFields } = require('../type');
+const graphql = require('graphql');
+const { inputFields } = require('../type');
 const { createUserResolver, loginUserResolver } = require('./resolvers');
+
+const {
+    GraphQLString
+} = graphql;
 
 /** Mutations definitions **/
 const createUser = {
-    type: UserType,
+    type: GraphQLString,
     args: inputFields.createUser,
     resolve: createUserResolver
 };
 
 const loginUser = {
-    type: UserType,
+    type: GraphQLString,
     args: inputFields.loginUser,
     resolve: loginUserResolver
 };
