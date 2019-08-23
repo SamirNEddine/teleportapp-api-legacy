@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Main api for the Teleport platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-public:teleportlabs/api.git"
+  },
+  "keywords": [
+    "voice",
+    "1-tap",
+    "communication",
+    "hardware"
+  ],
+  "author": "Teleport",
+  "license": "ISC"
+}
