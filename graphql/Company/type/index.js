@@ -10,12 +10,8 @@ const {
 
 /** Nested types **/
 const { DepartmentType } = require('../../Department');
-
-/** Nested resolvers **/
-const {
-    nestedCompanySites,
-    nestedCompanyDepartments
-} = require('./nestedResolvers');
+const { SiteType } = require('../../Site');
+const { TeamType } = require('../../Team');
 
 /** Type definition **/
 //Exports soon enough to overcome circular dependencies issues
@@ -35,12 +31,13 @@ module.exports.CompanyType = new GraphQLObjectType({
             type: GraphQLString
         },
         sites: {
-            type: GraphQLList(GraphQLString),
-            resolve: nestedCompanySites
+            type: GraphQLList(SiteType)
         },
         departments: {
-            type: GraphQLList(DepartmentType),
-            resolve: nestedCompanyDepartments
+            type: GraphQLList(DepartmentType)
+        },
+        teams:{
+            type: GraphQLList(TeamType)
         }
     })
 });
