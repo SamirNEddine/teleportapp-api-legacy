@@ -15,9 +15,9 @@ services:
       MONGO_INITDB_DATABASE: database
     volumes:
       - ./mongo/data/db:/data/db
-  server:
+  api:
     build: ./
-    container_name: server
+    container_name: api
     expose:
       - 27017
     ports:
