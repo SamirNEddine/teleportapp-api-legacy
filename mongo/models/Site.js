@@ -34,4 +34,4 @@ const SiteSchema = Schema({
     }
 }, {timestamp: true});
 
-module.exports new mongoose.model('site', SiteSchema);
+module.exports = new mongoose.model('site', SiteSchema);
