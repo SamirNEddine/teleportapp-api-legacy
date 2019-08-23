@@ -8,6 +8,9 @@ const {
     GraphQLList
 } = graphql;
 
+/** Nested types **/
+const { DepartmentType } = require('../../Department');
+
 /** Nested resolvers **/
 const {
     nestedCompanySites,
@@ -36,7 +39,7 @@ module.exports.CompanyType = new GraphQLObjectType({
             resolve: nestedCompanySites
         },
         departments: {
-            type: GraphQLList(GraphQLString),
+            type: GraphQLList(DepartmentType),
             resolve: nestedCompanyDepartments
         }
     })
