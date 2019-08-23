@@ -28,17 +28,17 @@ const UserSchema = Schema({
     profilePicture: {
         type: String
     },
-    company: {
+    companyId: {
         type: Schema.Types.ObjectID,
         required: true
     },
-    department: {
+    departmentId: {
         type: Schema.Types.ObjectID
     },
-    site: {
+    siteId: {
         type: Schema.Types.ObjectID
     },
-    team: {
+    teamId: {
         type: Schema.Types.ObjectID
     },
     role: {
