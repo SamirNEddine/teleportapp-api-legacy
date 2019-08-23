@@ -1,0 +1,31 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Main api for the Teleport platform",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -L --inspect=0.0.0.0:49541 ./server.js",
+    "production": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-public:teleportlabs/api.git"
+  },
+  "keywords": [
+    "voice",
+    "1-tap",
+    "communication",
+    "hardware"
+  ],
+  "author": "Teleport",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  },
+  "dependencies": {
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.10"
+  }
+}
