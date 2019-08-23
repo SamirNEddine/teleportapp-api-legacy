@@ -1,6 +1,5 @@
 const graphql = require('graphql');
 const { NonNull } = require('../../utils');
-const { DepartmentType } = require('../../Department');
 
 const {
     GraphQLObjectType,
@@ -8,6 +7,9 @@ const {
     GraphQLString,
     GraphQLList
 } = graphql;
+
+/** Nested types **/
+const { DepartmentType } = require('../../Department');
 
 /** Nested resolvers **/
 const {

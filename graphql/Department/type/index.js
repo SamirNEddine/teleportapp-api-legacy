@@ -7,11 +7,6 @@ const {
     GraphQLString,
 } = graphql;
 
-/** Nested resolvers **/
-const {
-    nestedDepartmentCompany
-} = require('./nestedResolvers');
-
 /** Type definition **/
 //Exports soon enough to overcome circular dependencies issues
 module.exports.DepartmentType = new GraphQLObjectType({
@@ -22,11 +17,6 @@ module.exports.DepartmentType = new GraphQLObjectType({
         },
         name: {
             type: NonNull(GraphQLString)
-        },
-        company: {
-            //Circular dependency workaround
-            type: require('../../Company').CompanyType,
-            resolve: nestedDepartmentCompany
         }
     })
 });
@@ -34,10 +24,11 @@ module.exports.DepartmentType = new GraphQLObjectType({
 /** Input fields for queries and mutations **/
 module.exports.inputFields = {
     department: {
-        id: {type: NonNull(GraphQLID)}
+        id: {type: NonNull(GraphQLID)},
+        companyId: {type: NonNull(GraphQLID)}
     },
     createDepartment:{
         name: {type: NonNull(GraphQLString)},
-        companyId: {type: NonNull(GraphQLID)},
+        companyId: {type: NonNull(GraphQLID)}
     }
 };
