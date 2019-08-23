@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 const { NonNull } = require('../../utils');
+const { DepartmentType } = require('../../Department');
 
 const {
     GraphQLObjectType,
@@ -36,7 +37,7 @@ module.exports.CompanyType = new GraphQLObjectType({
             resolve: nestedCompanySites
         },
         departments: {
-            type: GraphQLList(GraphQLString),
+            type: GraphQLList(DepartmentType),
             resolve: nestedCompanyDepartments
         }
     })
