@@ -6,6 +6,9 @@ const DepartmentSchema = Schema({
         type: String,
         required: true,
         min: 2
+    },
+    companyId:{
+        type: Schema.Types.ObjectId
     }
 }, {timestamp: true});
 

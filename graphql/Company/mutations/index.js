@@ -10,5 +10,5 @@ const createCompany = {
 
 /** Exports **/
 module.exports = {
-  createCompany
+    createCompany
 };
