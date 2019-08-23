@@ -17,5 +17,8 @@
     "hardware"
   ],
   "author": "Teleport",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
