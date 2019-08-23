@@ -29,7 +29,8 @@ const UserSchema = Schema({
         type: String
     },
     company: {
-        type: Schema.Types.ObjectID
+        type: Schema.Types.ObjectID,
+        required: true
     },
     department: {
         type: Schema.Types.ObjectID
@@ -39,6 +40,10 @@ const UserSchema = Schema({
     },
     team: {
         type: Schema.Types.ObjectID
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin', 'superAdmin']
     }
 }, {timestamp: true});
 
