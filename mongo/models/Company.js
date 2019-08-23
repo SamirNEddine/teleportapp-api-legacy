@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 /** Site Schema **/
 const AddressSchema = Schema({
-    street: {
+    streetAddress: {
         type: String,
         required: true,
         min: 6
@@ -20,7 +20,7 @@ const AddressSchema = Schema({
         required: true,
         min: 2
     },
-    Country: {
+    country: {
         type: String,
         required: true,
         min: 3

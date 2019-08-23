@@ -4,7 +4,7 @@ const { NonNull } = require('../../utils');
 const {
     GraphQLObjectType,
     GraphQLID,
-    GraphQLString,
+    GraphQLString
 } = graphql;
 
 /** Type definition **/

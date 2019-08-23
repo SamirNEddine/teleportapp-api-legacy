@@ -7,6 +7,7 @@ const {
 /** Types **/
 const Company = require('./Company');
 const Department = require('./Department');
+const Site = require('./Site');
 
 /** Queries **/
 const RootQuery = new GraphQLObjectType({
@@ -14,6 +15,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         ...Company.queries,
         ...Department.queries,
+        ...Site.queries
     }
 });
 
@@ -23,6 +25,7 @@ const RootMutation = new GraphQLObjectType({
     fields: {
         ...Company.mutations,
         ...Department.mutations,
+        ...Site.mutations
     }
 });
 
