@@ -1,8 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const graphqlHTTP = require('express-graphql');
 
-//Connect to the database
+/** Connect to the database **/
 const dbConnectURL = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_BASE_URL}:${process.env.DB_PORT}/${process.env.MAIN_DB_NAME}`;
 console.log(dbConnectURL);
 mongoose.connect(dbConnectURL, {useNewUrlParser: true, useFindAndModify: false, useCreateIndex:true}).then(function(){
@@ -11,15 +12,27 @@ mongoose.connect(dbConnectURL, {useNewUrlParser: true, useFindAndModify: false, 
     console.error(error);
 });
 
-//Express app
+/** Express app **/
 const app = express();
 
-//Server status endpoint
+/** graphQL setup **/
+//Graphql Schema
+const schema = require('./graphql/schema');
+//Add it to the express app as a middleware
+app.use(
+    '/graphql',
+    graphqlHTTP( req => ({
+        schema,
+        graphiql: true
+    }))
+);
+
+/** Server status endpoint **/
 app.use('/status', function (req, res) {
     res.status(200).send("200 OK: Server is up and running!");
 });
 
-//Start server
+/** Start server **/
 const port = process.env.MAIN_SERVER_PORT ? process.env.MAIN_SERVER_PORT : 3000;
 app.listen(port, function(){
     console.info('Server is successfully launched and can be reached on port:' + port);
