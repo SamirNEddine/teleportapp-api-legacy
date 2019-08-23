@@ -1,11 +1,12 @@
 const { CompanyType, inputFields } = require('../type');
 const { companyResolver } = require('./resolvers');
+const { authenticated } = require('../../utils');
 
 /** Queries definitions **/
 const company = {
     type: CompanyType,
     args: inputFields.company,
-    resolve: companyResolver
+    resolve: authenticated(companyResolver)
 };
 
 /** Exports **/

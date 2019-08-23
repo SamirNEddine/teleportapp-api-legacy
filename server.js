@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
+const authentication = require('./middleware/authentication');
 
 /** Connect to the database **/
 const dbConnectURL = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_BASE_URL}:${process.env.DB_PORT}/${process.env.MAIN_DB_NAME}`;
@@ -21,8 +22,13 @@ const schema = require('./graphql/schema');
 //Add it to the express app as a middleware
 app.use(
     '/graphql',
+    authentication,
     graphqlHTTP( req => ({
         schema,
+        context: {
+            user: req.user,
+            error: req.error
+        },
         graphiql: true
     }))
 );
