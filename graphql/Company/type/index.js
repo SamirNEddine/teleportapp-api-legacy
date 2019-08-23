@@ -14,7 +14,6 @@ const { SiteType } = require('../../Site');
 const { TeamType } = require('../../Team');
 
 /** Type definition **/
-//Exports soon enough to overcome circular dependencies issues
 module.exports.CompanyType = new GraphQLObjectType({
     name: 'Company',
     fields: () => ({
