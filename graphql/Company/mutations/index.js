@@ -5,7 +5,7 @@ const { createCompanyResolver } = require('./resolvers');
 const createCompany = {
     type: CompanyType,
     args: inputFields.createCompany,
-    resolver: createCompanyResolver
+    resolve: createCompanyResolver
 };
 
 /** Exports **/
