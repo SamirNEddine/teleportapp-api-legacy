@@ -25,6 +25,9 @@ module.exports.CompanyType = new GraphQLObjectType({
         name: {
             type: NonNull(GraphQLString)
         },
+        website: {
+            type: GraphQLString
+        },
         logo: {
             type: GraphQLString
         },
