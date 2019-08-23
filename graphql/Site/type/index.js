@@ -12,7 +12,7 @@ const {
 const AddressType = new GraphQLObjectType({
     name: 'Address',
     fields: () => ({
-        street: {
+        streetAddress: {
             type: NonNull(GraphQLString)
         },
         zipCode: {
