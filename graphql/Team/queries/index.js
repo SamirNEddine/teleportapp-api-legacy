@@ -1,12 +1,12 @@
 const { TeamType, inputFields } = require('../type');
 const { teamResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
 
 /** Queries definitions **/
 const team = {
     type: TeamType,
     args: inputFields.team,
-    resolve: authenticated(teamResolver)
+    resolve: authenticatedResolver(teamResolver)
 };
 
 /** Exports **/

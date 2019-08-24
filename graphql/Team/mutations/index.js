@@ -1,12 +1,12 @@
 const { TeamType, inputFields } = require('../type');
 const { createTeamResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
 
 /** Mutations definitions **/
 const createTeam = {
     type: TeamType,
     args: inputFields.createTeam,
-    resolve: authenticated(createTeamResolver)
+    resolve: authenticatedResolver(createTeamResolver)
 };
 
 /** Exports **/

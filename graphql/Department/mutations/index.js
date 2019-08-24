@@ -1,12 +1,12 @@
 const { DepartmentType, inputFields } = require('../type');
 const { createDepartmentResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
 
 /** Mutations definitions **/
 const createDepartment = {
     type: DepartmentType,
     args: inputFields.createDepartment,
-    resolve: authenticated(createDepartmentResolver)
+    resolve: authenticatedResolver(createDepartmentResolver)
 };
 
 /** Exports **/

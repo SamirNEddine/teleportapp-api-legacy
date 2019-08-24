@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { NonNull } = require('../../utils');
+const { NonNull } = require('../../../utils/graphql');
 
 const {
     GraphQLObjectType,

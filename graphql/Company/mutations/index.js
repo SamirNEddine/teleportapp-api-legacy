@@ -1,12 +1,12 @@
 const { CompanyType, inputFields } = require('../type');
 const { createCompanyResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
 
 /** Mutations definitions **/
 const createCompany = {
     type: CompanyType,
     args: inputFields.createCompany,
-    resolve: authenticated(createCompanyResolver)
+    resolve: authenticatedResolver(createCompanyResolver)
 };
 
 /** Exports **/
