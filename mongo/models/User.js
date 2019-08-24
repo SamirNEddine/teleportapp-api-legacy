@@ -1,8 +1,7 @@
 const Joi = require('@hapi/joi');
-const jwt = require('jsonwebtoken');
-const argon2 = require('argon2');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const { getJWTForUser, hashPassword, verifyPassword } = require('../../utils/authentication');
 
 const UserSchema = Schema({
     firstName: {
@@ -75,7 +74,7 @@ UserSchema.pre('save', async  function(next) {
         //Check if existing
         const emailExist = await User.findOne({email: this.email});
         if (emailExist) throw (new Error("Email already exist!"));
-        this.password = await argon2.hash(this.password, argon2.argon2id);
+        this.password = await hashPassword(this.password);
     }
     next();
 });
@@ -83,20 +82,12 @@ UserSchema.pre('save', async  function(next) {
 const User = new mongoose.model('User', UserSchema);
 
 /** JWT **/
-User.prototype.jwt = function() {
-    return jwt.sign(
-        {
-            id: this._id,
-            email: this.email,
-            companyId: this.companyId
-        },
-        process.env.JWT_SECRET,
-        {expiresIn: process.env.JWT_EXPIRATION}
-    )
+User.prototype.jwt = async function() {
+    return await getJWTForUser(this._id.toString(), this.email, this.companyId.toString());
 };
 
-User.prototype.verifyPassword = function(password) {
-    return argon2.verify(this.password, password);
+User.prototype.verifyPassword = async function(password) {
+    return await verifyPassword(password, this.password);
 };
 
 module.exports = User;
