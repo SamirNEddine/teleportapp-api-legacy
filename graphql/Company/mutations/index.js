@@ -1,12 +1,13 @@
 const { CompanyType, inputFields } = require('../type');
 const { createCompanyResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
+const { authorizedResolver, AccessLevels } = require('../../../utils/authorization');
 
 /** Mutations definitions **/
 const createCompany = {
     type: CompanyType,
     args: inputFields.createCompany,
-    resolve: authenticated(createCompanyResolver)
+    resolve: authorizedResolver(authenticatedResolver(createCompanyResolver), AccessLevels.SUPER_ADMIN)
 };
 
 /** Exports **/

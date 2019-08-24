@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
  */
 
 /** Site Schema **/
+//AddressSchema to be used in SiteSchema
 const AddressSchema = Schema({
     streetAddress: {
         type: String,
@@ -26,7 +27,6 @@ const AddressSchema = Schema({
         min: 3
     }
 });
-
 const SiteSchema = Schema({
     name: {
         type: String,

@@ -1,12 +1,13 @@
 const { UserType, inputFields } = require('../type');
 const { userResolver } = require('./resolvers');
-const { authenticated } = require('../../utils');
+const { authenticatedResolver } = require('../../../utils/authentication');
+const { authorizedResolver } = require('../../../utils/authorization');
 
 /** Queries definitions **/
 const user = {
     type: UserType,
     args: inputFields.user,
-    resolve: authenticated(userResolver)
+    resolve: authorizedResolver(authenticatedResolver(userResolver))
 };
 
 /** Exports **/

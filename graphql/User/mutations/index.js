@@ -1,18 +1,17 @@
 const graphql = require('graphql');
 const { inputFields } = require('../type');
-const { createUserResolver, loginUserResolver } = require('./resolvers');
+const { singUpUserResolver, loginUserResolver } = require('./resolvers');
 
 const {
     GraphQLString
 } = graphql;
 
 /** Mutations definitions **/
-const createUser = {
+const singUpUser = {
     type: GraphQLString,
-    args: inputFields.createUser,
-    resolve: createUserResolver
+    args: inputFields.singUpUser,
+    resolve: singUpUserResolver
 };
-
 const loginUser = {
     type: GraphQLString,
     args: inputFields.loginUser,
@@ -21,6 +20,6 @@ const loginUser = {
 
 /** Exports **/
 module.exports = {
-    createUser,
+    singUpUser,
     loginUser
 };

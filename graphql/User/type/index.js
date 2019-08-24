@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { NonNull } = require('../../utils');
+const { NonNull } = require('../../../utils/graphql');
 
 const {
     GraphQLObjectType,
@@ -66,9 +66,10 @@ module.exports.UserType = new GraphQLObjectType({
 /** Input fields for queries and mutations **/
 module.exports.inputFields = {
     user: {
-        id: {type: NonNull(GraphQLID)}
+        id: {type: GraphQLID},
+        companyId: {type: GraphQLID}
     },
-    createUser:{
+    singUpUser:{
         firstName: {type: NonNull(GraphQLString)},
         lastName: {type: NonNull(GraphQLString)},
         email: {type: NonNull(GraphQLString)},

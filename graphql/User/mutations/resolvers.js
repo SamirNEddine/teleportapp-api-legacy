@@ -1,6 +1,6 @@
 const User = require('../../../mongo/models/User');
 
-module.exports.createUserResolver = async function (_, args) {
+module.exports.singUpUserResolver = async function (_, args) {
     const user = await new User({...args});
     try{
         const savedUser = await user.save();
@@ -10,7 +10,6 @@ module.exports.createUserResolver = async function (_, args) {
         throw(error);
     }
 };
-
 module.exports.loginUserResolver = async function (_, {email, password}) {
     try {
         //Check if email exists

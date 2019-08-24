@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { NonNull } = require('../../utils');
+const { NonNull } = require('../../../utils/graphql');
 
 const {
     GraphQLObjectType,
@@ -44,7 +44,7 @@ module.exports.CompanyType = new GraphQLObjectType({
 /** Input fields for queries and mutations **/
 module.exports.inputFields = {
     company: {
-        id: {type: NonNull(GraphQLID)}
+        companyId: {type: GraphQLID}
     },
     createCompany:{
         name: {type: NonNull(GraphQLString)},
