@@ -1,6 +1,6 @@
 const User = require('../../../mongo/models/User');
 
-module.exports.createUserResolver = async function (_, args) {
+module.exports.singUpUserResolver = async function (_, args) {
     const user = await new User({...args});
     try{
         const savedUser = await user.save();

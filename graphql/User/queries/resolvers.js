@@ -1,9 +1,10 @@
 const User = require('../../../mongo/models/User');
 
-module.exports.userResolver = async function (_, {id}, context) {
+module.exports.userResolver = async function (_, {id}, {user}) {
     try{
-        const user = await User.findById(id);
-        return {...user._doc, password: ''}
+        id = id ? id : user.userId;
+        const theUser = await User.findById(id);
+        return {...theUser._doc, password: ''}
     }catch(error){
         console.error(error);
         throw(error);

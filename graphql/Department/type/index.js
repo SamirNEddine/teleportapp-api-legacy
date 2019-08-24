@@ -25,10 +25,10 @@ module.exports.DepartmentType = new GraphQLObjectType({
 module.exports.inputFields = {
     department: {
         id: {type: NonNull(GraphQLID)},
-        companyId: {type: NonNull(GraphQLID)}
+        companyId: {type: GraphQLID}
     },
     createDepartment:{
         name: {type: NonNull(GraphQLString)},
-        companyId: {type: NonNull(GraphQLID)}
+        companyId: {type: GraphQLID}
     }
 };
