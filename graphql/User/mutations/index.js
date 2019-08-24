@@ -12,7 +12,6 @@ const createUser = {
     args: inputFields.createUser,
     resolve: createUserResolver
 };
-
 const loginUser = {
     type: GraphQLString,
     args: inputFields.loginUser,

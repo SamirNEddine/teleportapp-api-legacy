@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+
 const {
     GraphQLSchema,
     GraphQLObjectType

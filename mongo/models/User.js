@@ -61,7 +61,6 @@ const validation = data => {
     }).unknown();
     return Joi.validate(data, schema);
 };
-
 UserSchema.pre('validate', function(next) {
     const { error } = validation(this._doc);
     if (error) throw(error.details[0].message);
@@ -79,15 +78,16 @@ UserSchema.pre('save', async  function(next) {
     next();
 });
 
+/** Extend User model with helpers methods **/
 const User = new mongoose.model('User', UserSchema);
 
 /** JWT **/
 User.prototype.jwt = async function() {
     return await getJWTForUser(this._id.toString(), this.email, this.companyId.toString());
 };
-
 User.prototype.verifyPassword = async function(password) {
     return await verifyPassword(password, this.password);
 };
 
+/** Export **/
 module.exports = User;

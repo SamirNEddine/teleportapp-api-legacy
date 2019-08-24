@@ -10,7 +10,6 @@ module.exports.createUserResolver = async function (_, args) {
         throw(error);
     }
 };
-
 module.exports.loginUserResolver = async function (_, {email, password}) {
     try {
         //Check if email exists
