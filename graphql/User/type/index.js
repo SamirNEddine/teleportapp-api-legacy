@@ -44,6 +44,9 @@ module.exports.UserType = new GraphQLObjectType({
         jobTitle: {
             type: NonNull(GraphQLString)
         },
+        profilePicture: {
+            type: GraphQLString
+        },
         company: {
             type: NonNull(CompanyType),
             resolve: nestedUserCompanyResolver
