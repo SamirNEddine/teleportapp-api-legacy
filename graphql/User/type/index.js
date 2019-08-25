@@ -42,7 +42,7 @@ module.exports.UserType = new GraphQLObjectType({
             type: GraphQLString
         },
         jobTitle: {
-            type: NonNull(GraphQLString)
+            type: GraphQLString
         },
         profilePicture: {
             type: GraphQLString
@@ -82,6 +82,7 @@ module.exports.inputFields = {
         password: {type: NonNull(GraphQLString)},
         companyId: {type: NonNull(GraphQLID)},
         jobTitle: {type: GraphQLString},
+        profilePicture: {type: GraphQLString},
         departmentId: {type: GraphQLID},
         siteId: {type: GraphQLID},
         teamId: {type: GraphQLID}
