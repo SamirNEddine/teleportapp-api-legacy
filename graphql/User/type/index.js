@@ -69,6 +69,9 @@ module.exports.inputFields = {
         id: {type: GraphQLID},
         companyId: {type: GraphQLID}
     },
+    users: {
+        companyId: {type: GraphQLID}
+    },
     singUpUser:{
         firstName: {type: NonNull(GraphQLString)},
         lastName: {type: NonNull(GraphQLString)},
