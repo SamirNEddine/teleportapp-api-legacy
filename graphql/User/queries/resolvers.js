@@ -1,4 +1,5 @@
 const User = require('../../../mongo/models/User');
+const { generateAgoraToken } = require('../../../utils/agoraToken');
 
 module.exports.userResolver = async function (_, {id}, {user}) {
     try{
@@ -22,6 +23,16 @@ module.exports.usersResolver = async function (_, {companyId}, {user}) {
             u.password = '';
             return u;
         });
+    }catch(error){
+        console.error(error);
+        throw(error);
+    }
+};
+
+module.exports.userAgoraTokenResolver = async function (_, args, {user}) {
+    try{
+        const channel = user.email + '_' + Math.floor(Math.random() * 10000);
+        return await generateAgoraToken(channel, user.userId);
     }catch(error){
         console.error(error);
         throw(error);
