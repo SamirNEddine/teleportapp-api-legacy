@@ -51,7 +51,7 @@ module.exports.SiteType = new GraphQLObjectType({
 module.exports.inputFields = {
     site: {
         id: {type: NonNull(GraphQLID)},
-        companyId: {type: NonNull(GraphQLID)}
+        companyId: {type: GraphQLID}
     },
     createSite:{
         name: {type: NonNull(GraphQLString)},
@@ -60,6 +60,6 @@ module.exports.inputFields = {
         city: {type: NonNull(GraphQLString)},
         country: {type: NonNull(GraphQLString)},
         isHeadquarter: {type: GraphQLBoolean},
-        companyId: {type: NonNull(GraphQLID)}
+        companyId: {type: GraphQLID}
     }
 };
