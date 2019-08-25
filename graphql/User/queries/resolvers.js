@@ -13,7 +13,11 @@ module.exports.userResolver = async function (_, {id}, {user}) {
 module.exports.usersResolver = async function (_, {companyId}, {user}) {
     try{
         companyId = companyId ? companyId : user.companyId;
-        const users = await User.find({companyId});
+        let users = await User.find({companyId});
+        //Remove me
+        users = users.filter(u => {
+            return u.id !== user.userId;
+        });
         return users.map( u => {
             u.password = '';
             return u;
