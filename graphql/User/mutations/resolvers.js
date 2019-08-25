@@ -19,7 +19,7 @@ module.exports.loginUserResolver = async function (_, {email, password}) {
         const isPasswordValid = await user.verifyPassword(password);
         if (!isPasswordValid) throw(new Error('Email or password is wrong!'));
         //Success. Return an access token
-        return user.jwt();
+        return await user.jwt();
     } catch(error){
         console.error(error);
         throw(error);

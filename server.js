@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
+const cors = require('cors');
 const authentication = require('./middleware/authentication');
 
 /** Connect to the database **/
@@ -15,6 +16,7 @@ mongoose.connect(dbConnectURL, {useNewUrlParser: true, useFindAndModify: false, 
 
 /** Express app **/
 const app = express();
+app.use('*', cors({ origin: 'http://localhost:3000' }));
 
 /** graphQL setup **/
 //Graphql Schema
