@@ -75,6 +75,9 @@ module.exports.inputFields = {
     users: {
         companyId: {type: GraphQLID}
     },
+    userAgoraToken: {
+        channel:{type: GraphQLString}
+    },
     singUpUser:{
         firstName: {type: NonNull(GraphQLString)},
         lastName: {type: NonNull(GraphQLString)},

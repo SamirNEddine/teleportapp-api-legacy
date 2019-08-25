@@ -22,6 +22,7 @@ const users = {
 };
 const userAgoraToken = {
     type: GraphQLString,
+    args: inputFields.userAgoraToken,
     resolve: authorizedResolver(authenticatedResolver(userAgoraTokenResolver))
 };
 

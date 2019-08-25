@@ -29,9 +29,8 @@ module.exports.usersResolver = async function (_, {companyId}, {user}) {
     }
 };
 
-module.exports.userAgoraTokenResolver = async function (_, args, {user}) {
+module.exports.userAgoraTokenResolver = async function (_, {channel}, {user}) {
     try{
-        const channel = user.email + '_' + Math.floor(Math.random() * 10000);
         return await generateAgoraToken(channel, user.userId);
     }catch(error){
         console.error(error);
