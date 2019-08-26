@@ -10,7 +10,7 @@ class ConversationSocket {
     }
     listen(){
         this.socket.on('connection', function (socket) {
-            console.log("Conversation Socket Connected: ", socket.handshake.query.userId);
+            console.log("New conversation socket connection: ", socket.handshake.query.user);
         })
     }
 }

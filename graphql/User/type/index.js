@@ -18,7 +18,8 @@ const {
     nestedUserCompanyResolver,
     nestedUserDepartmentResolver,
     nestedUserSiteResolver,
-    nestedUserTeamResolver
+    nestedUserTeamResolver,
+    nestedStatusResolver
 } = require('./nestedResolvers');
 
 /** Type definition **/
@@ -62,6 +63,10 @@ module.exports.UserType = new GraphQLObjectType({
         team: {
             type: TeamType,
             resolve: nestedUserTeamResolver
+        },
+        status: {
+            type: GraphQLString,
+            resolve: nestedStatusResolver
         }
     })
 });

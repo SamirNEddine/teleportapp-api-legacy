@@ -1,4 +1,5 @@
 const Company = require('../../../mongo/models/Company');
+const StatusSocket = require('../../../socket/StatusSocket');
 
 module.exports.nestedUserCompanyResolver = async function (user) {
     try{
@@ -8,7 +9,6 @@ module.exports.nestedUserCompanyResolver = async function (user) {
         throw(error);
     }
 };
-
 module.exports.nestedUserDepartmentResolver = async function (user) {
     try{
         const company = await Company.findById(user.companyId);
@@ -18,7 +18,6 @@ module.exports.nestedUserDepartmentResolver = async function (user) {
         throw(error);
     }
 };
-
 module.exports.nestedUserSiteResolver = async function (user) {
     try{
         const company = await Company.findById(user.companyId);
@@ -28,7 +27,6 @@ module.exports.nestedUserSiteResolver = async function (user) {
         throw(error);
     }
 };
-
 module.exports.nestedUserTeamResolver = async function (user) {
     try{
         const company = await Company.findById(user.companyId);
@@ -37,4 +35,7 @@ module.exports.nestedUserTeamResolver = async function (user) {
         console.debug(error);
         throw(error);
     }
+};
+module.exports.nestedStatusResolver = function (user) {
+    return StatusSocket.statusForUser(user);
 };

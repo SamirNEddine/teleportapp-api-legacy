@@ -23,7 +23,7 @@ module.exports.httpRequestAuth = async function (req, rest, next) {
 };
 
 module.exports.socketAuth = async function (socket, next) {
-    await  verifyToken(socket.handshake.query.token, socket.handshake.query, next)
+    await  verifyToken(socket.handshake.query.token, socket.handshake.query, next);
     if (socket.handshake.query.error){
         console.error(socket.handshake.query.error);
         next(socket.handshake.query.error);
