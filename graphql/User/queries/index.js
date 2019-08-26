@@ -1,11 +1,12 @@
 const graphql = require('graphql');
 const { UserType, inputFields } = require('../type');
-const { userResolver, usersResolver } = require('./resolvers');
+const { userResolver, usersResolver, userAgoraTokenResolver } = require('./resolvers');
 const { authenticatedResolver } = require('../../../utils/authentication');
 const { authorizedResolver } = require('../../../utils/authorization');
 
 const {
-    GraphQLList
+    GraphQLList,
+    GraphQLString
 } = graphql;
 
 /** Queries definitions **/
@@ -19,9 +20,15 @@ const users = {
     args: inputFields.users,
     resolve: authorizedResolver(authenticatedResolver(usersResolver))
 };
+const userAgoraToken = {
+    type: GraphQLString,
+    args: inputFields.userAgoraToken,
+    resolve: authorizedResolver(authenticatedResolver(userAgoraTokenResolver))
+};
 
 /** Exports **/
 module.exports = {
     user,
-    users
+    users,
+    userAgoraToken
 };
