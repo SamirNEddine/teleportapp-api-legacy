@@ -22,11 +22,11 @@ module.exports.authorizedResolver = function (resolver, accessLevel=AccessLevels
         let isSuperAdmin = false;//To avoid double verification in some cases
         if (companyIdInput && companyIdInput !== user.companyId){
             //For any request and any accessLevel. If a different companyId is provided in the request parameters. Only superAdmins can pass.
-            isSuperAdmin = await verifyAccessLevel(user.userId, companyIdInput, AccessLevels.SUPER_ADMIN);
+            isSuperAdmin = await verifyAccessLevel(user.id, companyIdInput, AccessLevels.SUPER_ADMIN);
             if (!isSuperAdmin) throw(new Error("Unauthorized Access"));
         }
         //For superAdmins, no need to go further.
-        if (!isSuperAdmin && ! await verifyAccessLevel(user.userId, user.companyId, accessLevel)) {
+        if (!isSuperAdmin && ! await verifyAccessLevel(user.id, user.companyId, accessLevel)) {
             throw(new Error("Unauthorized Access"));
         }
         return resolver(parent, args, context, info)

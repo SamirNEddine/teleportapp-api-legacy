@@ -28,12 +28,12 @@ module.exports.verifyPassword = async function (password, hash) {
 /** JWT **/
 class JWTUser {
     constructor(userId, email, companyId){
-        this.userId = userId;
+        this.id = userId;
         this.email = email;
         this.companyId = companyId;
     }
-    static JWTUserFromPayload({userId, email, companyId}){
-        return new JWTUser(userId, email, companyId)
+    static JWTUserFromPayload({user}){
+        return new JWTUser(user.id, user.email, user.companyId);
     }
     toPlainObject(){
         return Object.assign({}, this);
@@ -42,7 +42,7 @@ class JWTUser {
 module.exports.JWTUser = JWTUser;
 module.exports.getJWTForUser = async function (userId, email, companyId) {
     const jwtUser = new JWTUser(userId, email, companyId);
-    return jwt.sign(jwtUser.toPlainObject(), process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});
+    return jwt.sign({user: jwtUser.toPlainObject()}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRATION});
 };
 module.exports.getPayloadFromJWT = async function (token) {
     return jwt.verify(token, process.env.JWT_SECRET);
