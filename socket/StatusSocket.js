@@ -7,7 +7,7 @@ const availableUsers = {};
 
 class StatusSocket {
     static statusForUser(user){
-        if (availableUsers && availableUsers[user.companyId] && availableUsers[user.companyId].any(u => { return u.userId === String(user.id)})){
+        if (availableUsers && availableUsers[user.companyId] && availableUsers[user.companyId].any(u => { return u.id === String(user.id)})){
             return 'available';
         }else{
             return 'unavailable';

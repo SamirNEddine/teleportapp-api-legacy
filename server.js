@@ -19,8 +19,8 @@ mongoose.connect(dbConnectURL, {useNewUrlParser: true, useFindAndModify: false, 
 
 /** Express app **/
 const app = express();
-app.use('*', cors({ origin: 'http://localhost:3000' }));
-
+// app.use('*', cors({ origin: 'http://localhost:3000' }));
+app.use(cors());
 /** graphQL setup **/
 //Graphql Schema
 const schema = require('./graphql/schema');
