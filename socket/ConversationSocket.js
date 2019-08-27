@@ -63,8 +63,9 @@ class ConversationSocket {
     removeUserFromConversation(user, channel){
         const usersInConversation = conversations[user.companyId][channel];
         conversations[user.companyId][channel] = usersInConversation.filter( u => {
-            return (user.id !== u.id);
+            return (String(user.id) !== String(u.id));
         });
+        if(!conversations[user.companyId][channel].length) delete conversations[user.companyId][channel];
     }
     addUserToConversation(user, channel){
         if (!conversations[user.companyId]) conversations[user.companyId]={};
