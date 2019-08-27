@@ -36,13 +36,11 @@ class StatusSocket {
     addAvailableUser(user) {
         if(!availableUsers[user.companyId]) availableUsers[user.companyId] = [];
         availableUsers[user.companyId].push(user);
-        console.log(availableUsers);
     }
     removeAvailableUser(user){
         availableUsers[user.companyId] = availableUsers[user.companyId].filter( u => {
             return u.userId !== user.userId;
         });
-        console.log(availableUsers);
     }
 }
 
