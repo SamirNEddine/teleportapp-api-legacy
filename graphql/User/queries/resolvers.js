@@ -17,7 +17,7 @@ module.exports.usersResolver = async function (_, {companyId}, {user}) {
         let users = await User.find({companyId});
         //Remove me
         users = users.filter(u => {
-            return u.id !== user.id;
+            return u._id.toString() !== user.id;
         });
         return users.map( u => {
             u.password = '';
