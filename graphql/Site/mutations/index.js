@@ -7,7 +7,7 @@ const { authorizedResolver, AccessLevels } = require('../../../utils/authorizati
 const createSite = {
     type: SiteType,
     args: inputFields.createSite,
-    resolve: authorizedResolver(authenticatedResolver(createSiteResolver), AccessLevels.ADMIN)
+    resolve: authenticatedResolver(authorizedResolver(createSiteResolver, AccessLevels.ADMIN))
 };
 
 /** Exports **/

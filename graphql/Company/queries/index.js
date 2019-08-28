@@ -7,7 +7,7 @@ const { authorizedResolver } = require('../../../utils/authorization');
 const company = {
     type: CompanyType,
     args: inputFields.company,
-    resolve: authorizedResolver(authenticatedResolver(companyResolver))
+    resolve: authenticatedResolver(authorizedResolver(companyResolver))
 };
 
 /** Exports **/

@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+const ApiError = require('../utils/apiError');
 const { AUTH_MODE_PREFIX, getPayloadFromJWT, JWTUser } = require('../utils/authentication');
 
 async function verifyToken(authorization, req, next){
@@ -10,10 +10,10 @@ async function verifyToken(authorization, req, next){
             req.error = null;
         }catch(error){
             console.error(error);
-            req.error = error;
+            req.error = ApiError.UNAUTHORIZED_ERROR(error.message);
         }
     }else{
-        req.error = new Error("No Authorization token found");
+        req.error = ApiError.UNAUTHORIZED_ERROR('No Authorization token found');
     }
     next();
 }

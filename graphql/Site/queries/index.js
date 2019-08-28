@@ -7,7 +7,7 @@ const { authorizedResolver } = require('../../../utils/authorization');
 const site = {
     type: SiteType,
     args: inputFields.site,
-    resolve: authorizedResolver(authenticatedResolver(siteResolver))
+    resolve: authenticatedResolver(authorizedResolver(siteResolver))
 };
 
 /** Exports **/

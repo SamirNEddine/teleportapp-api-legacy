@@ -7,7 +7,7 @@ const { authorizedResolver } = require('../../../utils/authorization');
 const department = {
     type: DepartmentType,
     args: inputFields.department,
-    resolve: authorizedResolver(authenticatedResolver(departmentResolver))
+    resolve: authenticatedResolver(authorizedResolver(departmentResolver))
 };
 
 /** Exports **/

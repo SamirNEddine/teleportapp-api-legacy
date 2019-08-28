@@ -13,17 +13,17 @@ const {
 const user = {
     type: UserType,
     args: inputFields.user,
-    resolve: authorizedResolver(authenticatedResolver(userResolver))
+    resolve: authenticatedResolver(authorizedResolver(userResolver))
 };
 const users = {
     type: GraphQLList(UserType),
     args: inputFields.users,
-    resolve: authorizedResolver(authenticatedResolver(usersResolver))
+        resolve: authenticatedResolver(authorizedResolver(usersResolver))
 };
 const userAgoraToken = {
     type: GraphQLString,
     args: inputFields.userAgoraToken,
-    resolve: authorizedResolver(authenticatedResolver(userAgoraTokenResolver))
+    resolve: authenticatedResolver(authorizedResolver(userAgoraTokenResolver))
 };
 
 /** Exports **/

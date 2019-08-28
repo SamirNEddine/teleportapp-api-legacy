@@ -7,7 +7,7 @@ const { authorizedResolver } = require('../../../utils/authorization');
 const team = {
     type: TeamType,
     args: inputFields.team,
-    resolve: authorizedResolver(authenticatedResolver(teamResolver))
+    resolve: authenticatedResolver(authorizedResolver(teamResolver))
 };
 
 /** Exports **/
