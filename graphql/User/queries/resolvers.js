@@ -5,7 +5,7 @@ module.exports.userResolver = async function (_, {id}, {user}) {
     try{
         id = id ? id : user.id;
         const theUser = await User.findById(id);
-        return {...theUser._doc, password: ''}
+        return {...theUser._doc, id:theUser._id, password: ''}
     }catch(error){
         console.error(error);
         throw(error);
