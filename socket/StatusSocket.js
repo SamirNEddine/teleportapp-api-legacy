@@ -21,7 +21,11 @@ class StatusSocket {
     }
     listen() {
         this.socket.on('connection', socket => {
-            const {user} = socket.handshake.query;
+            const {user, error} = socket.handshake.query;
+            if (error){
+                socket.conn.close();
+                return;
+            }
             console.log("New status socket connection: ", user);
             this.addAvailableUser(user);
             socket.broadcast.emit('user-available', user);

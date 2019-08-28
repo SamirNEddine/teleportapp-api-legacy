@@ -16,7 +16,11 @@ class ConversationSocket {
     listen(){
         //Connection
         this.socket.on('connection', socket => {
-            const {user} = socket.handshake.query;
+            const {user, error} = socket.handshake.query;
+            if (error){
+                socket.conn.close();
+                return;
+            }
             console.log("New conversation socket connection: ", user);
             this.addUserSocket(socket, user);
             //Track disconnect

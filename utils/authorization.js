@@ -1,5 +1,6 @@
 const { JWTUser } = require('./authentication');
 const User = require('../mongo/models/User');
+const ApiError  = require('./apiError');
 
 const AccessLevels = module.exports.AccessLevels = {
     USER: 'user',
@@ -17,7 +18,7 @@ Authorization rules:
 module.exports.authorizedResolver = function (resolver, accessLevel=AccessLevels.USER) {
     return async function (parent, args, context, info) {
         const { user } = context;//Of class JWTUser
-        if (!user) throw(new Error("Internal error"));//This shouldn't happen as it should have passed through the authentication verification
+        if (!user) throw(ApiError.INTERNAL_SERVER_ERROR());//This shouldn't happen as it should have passed through the authentication verification
         const companyIdInput = args.companyId;
         let isSuperAdmin = false;//To avoid double verification in some cases
         if (companyIdInput && companyIdInput !== user.companyId){

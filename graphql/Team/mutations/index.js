@@ -7,7 +7,7 @@ const { authorizedResolver, AccessLevels } = require('../../../utils/authorizati
 const createTeam = {
     type: TeamType,
     args: inputFields.createTeam,
-    resolve: authorizedResolver(authenticatedResolver(createTeamResolver), AccessLevels.ADMIN)
+    resolve: authenticatedResolver(authorizedResolver(createTeamResolver, AccessLevels.ADMIN))
 };
 
 /** Exports **/

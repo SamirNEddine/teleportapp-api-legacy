@@ -7,7 +7,7 @@ const { authorizedResolver, AccessLevels } = require('../../../utils/authorizati
 const createCompany = {
     type: CompanyType,
     args: inputFields.createCompany,
-    resolve: authorizedResolver(authenticatedResolver(createCompanyResolver), AccessLevels.SUPER_ADMIN)
+    resolve: authenticatedResolver(authorizedResolver(createCompanyResolver, AccessLevels.SUPER_ADMIN))
 };
 
 /** Exports **/

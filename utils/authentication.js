@@ -1,5 +1,6 @@
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
+const ApiError = require('./apiError');
 
 /** Constants **/
 const AUTH_MODE_PREFIX = module.exports.AUTH_MODE_PREFIX = 'Bearer ';
@@ -9,7 +10,7 @@ module.exports.authenticatedResolver = function (resolver) {
     return function (parent, args, context, info) {
         let {user, error} = context;
         if (!user || error){
-            error = error ? error : new Error("Internal error");
+            error = error ? error : ApiError.INTERNAL_SERVER_ERROR();
             throw(error);
         }else{
             return resolver(parent, args, context, info)
