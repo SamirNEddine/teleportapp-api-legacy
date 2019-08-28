@@ -7,7 +7,7 @@ const availableUsers = {};
 
 class StatusSocket {
     static statusForUser(user){
-        if (availableUsers && availableUsers[user.companyId] && availableUsers[user.companyId].any(u => { return u.id === String(user.id)})){
+        if (availableUsers && availableUsers[String(user.companyId)] && availableUsers[String(user.companyId)].some(u => { return String(u.id) === String(user.id)})){
             return 'available';
         }else{
             return 'unavailable';
@@ -38,12 +38,12 @@ class StatusSocket {
         });
     }
     addAvailableUser(user) {
-        if(!availableUsers[user.companyId]) availableUsers[user.companyId] = [];
-        availableUsers[user.companyId].push(user);
+        if(!availableUsers[String(user.companyId)]) availableUsers[String(user.companyId)] = [];
+        availableUsers[String(user.companyId)].push(user);
     }
     removeAvailableUser(user){
-        availableUsers[user.companyId] = availableUsers[user.companyId].filter( u => {
-            return u.userId !== user.userId;
+        availableUsers[String(user.companyId)] = availableUsers[String(user.companyId)].filter( u => {
+            return String(u.id) !== String(user.id);
         });
     }
 }
