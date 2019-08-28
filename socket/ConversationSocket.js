@@ -54,31 +54,31 @@ class ConversationSocket {
         });
     }
     addUserSocket(socket, user){
-        if(!userSockets[user.companyId]) userSockets[user.companyId] = {};
-        userSockets[user.companyId][user.id] = socket;
+        if(!userSockets[String(user.companyId)]) userSockets[String(user.companyId)] = {};
+        userSockets[String(user.companyId)][String(user.id)] = socket;
     }
     removeUserSocket(user){
         console.log("removing user", user);
-        delete userSockets[user.companyId][user.id];
+        delete userSockets[String(user.companyId)][String(user.id)];
     }
     getSocketForUser(user){
-        return userSockets[user.companyId][user.id];
+        return userSockets[String(user.companyId)][String(user.id)];
     }
     removeUserFromConversation(user, channel){
         const usersInConversation = conversations[user.companyId][channel];
-        conversations[user.companyId][channel] = usersInConversation.filter( u => {
+        conversations[String(user.companyId)][channel] = usersInConversation.filter( u => {
             return (String(user.id) !== String(u.id));
         });
-        if(!conversations[user.companyId][channel].length) delete conversations[user.companyId][channel];
+        if(!conversations[String(user.companyId)][channel].length) delete conversations[String(user.companyId)][channel];
     }
     addUserToConversation(user, channel){
-        if (!conversations[user.companyId]) conversations[user.companyId]={};
-        if (!conversations[user.companyId][channel]) conversations[user.companyId][channel] = [];
-        conversations[user.companyId][channel].push(user);
+        if (!conversations[String(user.companyId)]) conversations[String(user.companyId)]={};
+        if (!conversations[String(user.companyId)][channel]) conversations[String(user.companyId)][channel] = [];
+        conversations[String(user.companyId)][channel].push(user);
     };
     getContactsForChannel(user, channel){
         //Return others except me
-        const contacts = conversations[user.companyId][channel];
+        const contacts = conversations[String(user.companyId)][channel];
         return contacts.filter( contact => {
             return String(contact.id) !== String(user.id)
         });
