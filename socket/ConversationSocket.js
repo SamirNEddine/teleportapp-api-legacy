@@ -31,6 +31,7 @@ class ConversationSocket {
             socket.on('add-contact', async ({contactId, channel}) => {
                 console.log('Add contact', contactId, ' to channel ', channel);
                 const contactSocket = this.getSocketForUser(contactId);
+                console.debug(`Sending 'join-conversation' to ${contactId}`);
                 contactSocket.emit('join-conversation', {channel});
             });
         });
