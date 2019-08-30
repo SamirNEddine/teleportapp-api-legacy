@@ -28,12 +28,12 @@ class StatusSocket {
             }
             console.log("New status socket connection: ", user);
             this.addAvailableUser(user);
-            socket.broadcast.emit('user-available', user);
+            socket.broadcast.emit('status-update', {user, status:"available"});
             //Track disconnect
             socket.on('disconnect', socket => {
                 console.log("Socket DISCONNECTED: ", user);
                 this.removeAvailableUser(user);
-                this.socket.emit('user-unavailable', user);
+                this.socket.emit('status-update', {user, status:"unavailable"});
             })
         });
     }
