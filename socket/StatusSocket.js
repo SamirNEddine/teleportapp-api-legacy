@@ -29,6 +29,12 @@ class StatusSocket {
             console.log("New status socket connection: ", user);
             this.addOnlineUser(user);
             socket.broadcast.emit('status-update', {user, status:"available"});
+            //Status update
+            socket.on('update-status', ({status}) => {
+                console.debug(`${user} updated status to ${status}`);
+                this.updateUserStatus(user, status);
+                socket.broadcast.emit('status-update', {user, status});
+            })
             //Track disconnect
             socket.on('disconnect', socket => {
                 console.log("Socket DISCONNECTED: ", user);
@@ -43,6 +49,9 @@ class StatusSocket {
     }
     removeOnlineUser(user){
         delete onlineUsers[String(user.companyId)][String(user.id)];
+    }
+    updateUserStatus(user, status){
+        onlineUsers[String(user.companyId)][String(user.id)] = status;
     }
 }
 
