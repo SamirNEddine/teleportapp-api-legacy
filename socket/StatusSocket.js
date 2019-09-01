@@ -3,12 +3,12 @@ const { socketAuth } = require('../middleware/authentication');
 const STATUS_NAMESPACE = "status";
 
 //Todo: Move to a cache service
-const availableUsers = {};
+const onlineUsers = {};// {companyId:{userId:'available|busy'}
 
 class StatusSocket {
     static statusForUser(user){
-        if (availableUsers && availableUsers[String(user.companyId)] && availableUsers[String(user.companyId)].some(u => { return String(u.id) === String(user.id)})){
-            return 'available';
+        if (onlineUsers[String(user.companyId)] && onlineUsers[String(user.companyId)][String(user.id)]){
+            return onlineUsers[String(user.companyId)][String(user.id)];
         }else{
             return 'unavailable';
         }
@@ -27,24 +27,31 @@ class StatusSocket {
                 return;
             }
             console.log("New status socket connection: ", user);
-            this.addAvailableUser(user);
+            this.addOnlineUser(user);
             socket.broadcast.emit('status-update', {user, status:"available"});
+            //Status update
+            socket.on('update-status', ({status}) => {
+                console.debug(`${user} updated status to ${status}`);
+                this.updateUserStatus(user, status);
+                socket.broadcast.emit('status-update', {user, status});
+            })
             //Track disconnect
             socket.on('disconnect', socket => {
                 console.log("Socket DISCONNECTED: ", user);
-                this.removeAvailableUser(user);
+                this.removeOnlineUser(user);
                 this.socket.emit('status-update', {user, status:"unavailable"});
             })
         });
     }
-    addAvailableUser(user) {
-        if(!availableUsers[String(user.companyId)]) availableUsers[String(user.companyId)] = [];
-        availableUsers[String(user.companyId)].push(user);
+    addOnlineUser(user) {
+        if(!onlineUsers[String(user.companyId)]) onlineUsers[String(user.companyId)] = {};
+        onlineUsers[String(user.companyId)][String(user.id)] = 'available';
     }
-    removeAvailableUser(user){
-        availableUsers[String(user.companyId)] = availableUsers[String(user.companyId)].filter( u => {
-            return String(u.id) !== String(user.id);
-        });
+    removeOnlineUser(user){
+        delete onlineUsers[String(user.companyId)][String(user.id)];
+    }
+    updateUserStatus(user, status){
+        onlineUsers[String(user.companyId)][String(user.id)] = status;
     }
 }
 
