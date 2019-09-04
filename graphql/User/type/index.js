@@ -81,7 +81,10 @@ module.exports.inputFields = {
         companyId: {type: GraphQLID}
     },
     userAgoraToken: {
-        channel:{type: GraphQLString}
+        channel:{type: NonNull(GraphQLString)}
+    },
+    userOpenTalkToken: {
+        sessionId:{type: NonNull(GraphQLString)}
     },
     singUpUser:{
         firstName: {type: NonNull(GraphQLString)},

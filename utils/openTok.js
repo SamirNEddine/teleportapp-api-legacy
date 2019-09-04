@@ -4,7 +4,7 @@ const openTok = new OpenTok(process.env.OPEN_TOK_API_KEY, process.env.OPEN_TOK_A
 
 module.exports.createNewSession = function(){
     return new Promise(function(resolve, reject){
-        openTok.createSession(function(err, session){
+        openTok.createSession({mediaMode:"routed"}, function(err, session){
             if(err){
                 reject(err);
             }else{
