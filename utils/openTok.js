@@ -8,6 +8,7 @@ module.exports.createNewSession = function(){
             if(err){
                 reject(err);
             }else{
+                console.debug(`New session created: ${session.sessionId}`);
                 resolve(session.sessionId);
             }
         });
@@ -15,5 +16,6 @@ module.exports.createNewSession = function(){
 };
 
 module.exports.generateTokenForSession = function(sessionId){
+    console.debug(`Generating new token for: ${session.sessionId}`);
     return openTok.generateToken(sessionId);
 };
