@@ -16,6 +16,6 @@ module.exports.createNewSession = function(){
 };
 
 module.exports.generateTokenForSession = function(sessionId){
-    console.debug(`Generating new token for: ${session.sessionId}`);
+    console.debug(`Generating new token for: ${sessionId}`);
     return openTok.generateToken(sessionId);
 };
