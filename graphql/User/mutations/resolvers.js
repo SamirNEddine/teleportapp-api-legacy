@@ -1,8 +1,11 @@
 const User = require('../../../mongo/models/User');
+const Counters = require('../../../mongo/models/Counters');
 
 module.exports.singUpUserResolver = async function (_, args) {
     const user = await new User({...args});
     try{
+        //Use Numbers for user ids.
+        user._id = await Counters.getNextSequence("userId");
         const savedUser = await user.save();
         return savedUser.jwt();
     }catch(error){

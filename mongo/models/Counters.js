@@ -19,21 +19,10 @@ const CountersSchema = Schema({
 
 const Counters = new mongoose.model('Counters', CountersSchema);
 
-Counters.prototype.getNextSequence = async function (name) {
+Counters.getNextSequence = async function (name) {
     //Insert initial value if needed
-    let query = { _id: name };
-    let update = {req: 0};
-    let options = {upsert: true, new: true, setDefaultsOnInsert: true};
-    await Counters.findOneAndUpdate(query, update, options);
-
-    const ret = await Counters.findAndModify(
-        {
-            query: { _id: name },
-            update: { $inc: { seq: 1 } },
-            new: true,
-            upsert: true
-        }
-    );
+    await Counters.findOneAndUpdate({ _id: name }, {req: 0}, {upsert: true, new: true, setDefaultsOnInsert: true});
+    const ret = await Counters.findOneAndUpdate({ _id: name }, { $inc: { seq: 1 } }, {upsert: true, new: true});
     return ret.seq;
 };
 

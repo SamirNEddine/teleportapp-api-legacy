@@ -5,6 +5,7 @@ const {
     GraphQLObjectType,
     GraphQLID,
     GraphQLString,
+    GraphQLInt
 } = graphql;
 
 /** Nested types **/
@@ -28,7 +29,7 @@ module.exports.UserType = new GraphQLObjectType({
     name: 'User',
     fields: () => ({
         id: {
-            type: NonNull(GraphQLID)
+            type: NonNull(GraphQLInt)
         },
         firstName: {
             type: NonNull(GraphQLString)
@@ -74,7 +75,7 @@ module.exports.UserType = new GraphQLObjectType({
 /** Input fields for queries and mutations **/
 module.exports.inputFields = {
     user: {
-        id: {type: GraphQLID},
+        id: {type: GraphQLInt},
         companyId: {type: GraphQLID}
     },
     users: {
