@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const { getJWTForUser, hashPassword, verifyPassword } = require('../../utils/authentication');
 
 const UserSchema = Schema({
+    _id: {
+      type: Number,
+      required: true
+    },
     firstName: {
         type: String,
         required: true,
