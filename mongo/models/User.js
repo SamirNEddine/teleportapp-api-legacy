@@ -4,6 +4,10 @@ const Schema = mongoose.Schema;
 const { getJWTForUser, hashPassword, verifyPassword } = require('../../utils/authentication');
 
 const UserSchema = Schema({
+    _id: {
+      type: Number,
+      required: true
+    },
     firstName: {
         type: String,
         required: true,
@@ -83,7 +87,7 @@ const User = new mongoose.model('User', UserSchema);
 
 /** JWT **/
 User.prototype.jwt = async function() {
-    return await getJWTForUser(this._id.toString(), this.email, this.companyId.toString());
+    return await getJWTForUser(this._id, this.email, this.companyId.toString());
 };
 User.prototype.verifyPassword = async function(password) {
     return await verifyPassword(password, this.password);
