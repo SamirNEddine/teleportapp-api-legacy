@@ -1,14 +1,22 @@
 const { socketAuth } = require('../middleware/authentication');
+const { redisGetAsync, redisSetAsync } = require('../utils/redis');
 
 const STATUS_NAMESPACE = "status";
+const CACHE_KEY = 'onlineUsers';
 
-//Todo: Move to a cache service
-const onlineUsers = {};// {companyId:{userId:'available|busy'}
+async function getOnlineUsersCache(user){
+    const onlineUsers = await redisGetAsync(`${CACHE_KEY}_${user.companyId}`);
+    return onlineUsers ? JSON.parse(onlineUsers) : {};
+}
+function updateOnlineUsersCache(onlineUsers, user){
+    redisSetAsync(`${CACHE_KEY}_${user.companyId}`, JSON.stringify(onlineUsers));
+}
 
 class StatusSocket {
-    static statusForUser(user){
-        if (onlineUsers[String(user.companyId)] && onlineUsers[String(user.companyId)][String(user.id)]){
-            return onlineUsers[String(user.companyId)][String(user.id)];
+    static async statusForUser(user){
+        const onlineUsers = await getOnlineUsersCache(user);
+        if (onlineUsers[String(user.id)]){
+            return onlineUsers[String(user.id)];
         }else{
             return 'unavailable';
         }
@@ -43,15 +51,34 @@ class StatusSocket {
             })
         });
     }
-    addOnlineUser(user) {
-        if(!onlineUsers[String(user.companyId)]) onlineUsers[String(user.companyId)] = {};
-        onlineUsers[String(user.companyId)][String(user.id)] = 'available';
+
+
+    async addOnlineUser(user) {
+        try{
+            const onlineUsers = await getOnlineUsersCache(user);
+            onlineUsers[String(user.id)] = 'available';
+            updateOnlineUsersCache(onlineUsers, user);
+        }catch(e){
+            console.debug('Redis Error:', e);
+        }
     }
-    removeOnlineUser(user){
-        delete onlineUsers[String(user.companyId)][String(user.id)];
+    async removeOnlineUser(user){
+        try{
+            const onlineUsers = await getOnlineUsersCache(user);
+            delete onlineUsers[String(user.id)];
+            updateOnlineUsersCache(onlineUsers, user);
+        }catch (e) {
+            console.debug('Redis Error:', e);
+        }
     }
-    updateUserStatus(user, status){
-        onlineUsers[String(user.companyId)][String(user.id)] = status;
+    async updateUserStatus(user, status){
+        try{
+            const onlineUsers = await getOnlineUsersCache(user);
+            onlineUsers[String(user.id)] = status;
+            updateOnlineUsersCache(onlineUsers, user);
+        }catch (e) {
+            console.debug('Redis Error:', e);
+        }
     }
 }
 
