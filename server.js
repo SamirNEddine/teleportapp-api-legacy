@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { setupSentry } = require('./utils/sentry');
 const { connectToDb } = require('./utils/mongoose');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
@@ -7,6 +8,9 @@ const socket = require('socket.io');
 const ConversationSocket = require('./socket/ConversationSocket');
 const StatusSocket = require('./socket/StatusSocket');
 const { httpRequestAuth, socketAuth } = require('./middleware/authentication');
+
+/** Sentry **/
+setupSentry();
 
 /** Connect to the database **/
 connectToDb();
