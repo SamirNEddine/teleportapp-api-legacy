@@ -3,7 +3,7 @@ const { setupSentry } = require('./utils/sentry');
 const { connectToDb } = require('./utils/mongoose');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const cors = require('cors');
+const { getServerCors } = require('./utils/cors');
 const socket = require('socket.io');
 const ConversationSocket = require('./socket/ConversationSocket');
 const StatusSocket = require('./socket/StatusSocket');
@@ -17,8 +17,10 @@ connectToDb();
 
 /** Express app **/
 const app = express();
-// app.use('*', cors({ origin: 'http://localhost:3000' }));
-app.use(cors());
+
+/** Cors **/
+app.use(getServerCors());
+
 /** graphQL setup **/
 //Graphql Schema
 const schema = require('./graphql/schema');
