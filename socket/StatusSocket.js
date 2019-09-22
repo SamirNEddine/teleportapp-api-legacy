@@ -49,7 +49,7 @@ class StatusSocket {
                 console.log("Socket DISCONNECTED: ", user);
                 this.removeOnlineUser(user);
                 this.socket.emit('status-update', {user, status:"unavailable"});
-            })
+            });
         });
     }
 
