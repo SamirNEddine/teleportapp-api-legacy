@@ -43,10 +43,6 @@ class StatusSocket {
                 console.debug(`${user} updated status to ${status}`);
                 this.updateUserStatus(user, status);
                 socket.broadcast.emit('status-update', {user, status});
-                //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
-                if(status !== 'busy'){
-                    trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
-                }
             });
             //Track disconnect
             socket.on('disconnect', socket => {
@@ -79,8 +75,15 @@ class StatusSocket {
     async updateUserStatus(user, status){
         try{
             const onlineUsers = await getOnlineUsersCache(user);
-            onlineUsers[String(user.id)] = status;
-            updateOnlineUsersCache(onlineUsers, user);
+            const currentStatus = onlineUsers[String(user.id)];
+            if(currentStatus !== status){
+                onlineUsers[String(user.id)] = status;
+                updateOnlineUsersCache(onlineUsers, user);
+                //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
+                if(status !== 'busy' && currentStatus !== 'busy'){
+                    trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
+                }
+            }
         }catch (e) {
             console.debug('Redis Error:', e);
         }
