@@ -35,11 +35,9 @@ class ConversationSocket {
                 contactSocket.emit('join-conversation', {channel});
                 trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId, conversationId: channel}, user);
             });
-            socket.on('answered-conversation-request', ({channel}) => {
-                trackEvent(AnalyticsEvents.ANSWER_CONVERSATION_REQUEST, {conversationId: channel}, user);
-            });
-            socket.on('leave-conversation', ({channel, leftManually}) => {
-                trackEvent(AnalyticsEvents.LEAVE_CONVERSATION, {conversationId: channel, leftManually}, user);
+            //Track analytics
+            socket.on('analytics', ({event, properties}) => {
+                trackEvent(event, properties, user);
             });
         });
     }
