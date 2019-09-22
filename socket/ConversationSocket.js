@@ -1,5 +1,5 @@
 const { socketAuth } = require('../middleware/authentication');
-const User = require('../mongo/models/User');
+const { trackEvent, AnalyticsEvents } = require('../utils/analytics');
 
 const CONVERSATION_NAMESPACE = "conversation";
 
@@ -33,6 +33,13 @@ class ConversationSocket {
                 const contactSocket = this.getSocketForUser(contactId);
                 console.debug(`Sending 'join-conversation' to ${contactId}`);
                 contactSocket.emit('join-conversation', {channel});
+                trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId, conversationId: channel}, user);
+            });
+            socket.on('user-answered', ({channel}) => {
+                trackEvent(AnalyticsEvents.ANSWER_CONVERSATION_REQUEST, {conversationId: channel}, user);
+            });
+            socket.on('leave-conversation', ({channel, isLastOne}) => {
+                trackEvent(AnalyticsEvents.LEAVE_CONVERSATION, {conversationId: channel, isLastOne}, user);
             });
         });
     }

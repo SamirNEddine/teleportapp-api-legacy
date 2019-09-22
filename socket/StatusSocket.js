@@ -1,5 +1,6 @@
 const { socketAuth } = require('../middleware/authentication');
 const { redisGetAsync, redisSetAsync } = require('../utils/redis');
+const { trackEvent, AnalyticsEvents } = require('../utils/analytics');
 
 const STATUS_NAMESPACE = "status";
 const CACHE_KEY = 'onlineUsers';
@@ -42,7 +43,11 @@ class StatusSocket {
                 console.debug(`${user} updated status to ${status}`);
                 this.updateUserStatus(user, status);
                 socket.broadcast.emit('status-update', {user, status});
-            })
+                //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
+                if(status !== 'busy'){
+                    trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
+                }
+            });
             //Track disconnect
             socket.on('disconnect', socket => {
                 console.log("Socket DISCONNECTED: ", user);

@@ -1,5 +1,7 @@
 const User = require('../../../mongo/models/User');
 const Counters = require('../../../mongo/models/Counters');
+const { fork } = require('child_process');
+const { Tasks } = require('../../../tasks/analytics');
 
 module.exports.singUpUserResolver = async function (_, args) {
     const user = await new User({...args});
@@ -23,8 +25,16 @@ module.exports.loginUserResolver = async function (_, {email, password}) {
         if (!isPasswordValid) throw(new Error('Email or password is wrong!'));
         //Success. Return an access token
         return await user.jwt();
-    } catch(error){
+    } catch(error) {
         console.error(error);
         throw(error);
     }
+};
+
+/** Super Admin **/
+module.exports.forceIdentifyUsers =  function () {
+    //Run the task on another process
+    const process = fork('./tasks/analytics', { execArgv: [] });
+    process.send({task: Tasks.FORCE_IDENTIFY_ALL_USERS});
+    return 'OK';
 };

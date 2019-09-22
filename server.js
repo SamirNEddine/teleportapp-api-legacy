@@ -1,6 +1,6 @@
 require('dotenv').config();
+const { connectToDb } = require('./utils/mongoose');
 const express = require('express');
-const mongoose = require('mongoose');
 const graphqlHTTP = require('express-graphql');
 const cors = require('cors');
 const socket = require('socket.io');
@@ -9,13 +9,7 @@ const StatusSocket = require('./socket/StatusSocket');
 const { httpRequestAuth, socketAuth } = require('./middleware/authentication');
 
 /** Connect to the database **/
-const dbConnectURL = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_BASE_URL}:${process.env.DB_PORT}/${process.env.MAIN_DB_NAME}`;
-console.log(dbConnectURL);
-mongoose.connect(dbConnectURL, {useNewUrlParser: true, useFindAndModify: false, useCreateIndex:true}).then(function(){
-    console.info('Successfully connected to the database: ' + process.env.MAIN_DB_NAME + ' using username: '+process.env.DB_USERNAME + ' on port: '+process.env.DB_PORT);
-}).catch(function (error) {
-    console.error(error);
-});
+connectToDb();
 
 /** Express app **/
 const app = express();
