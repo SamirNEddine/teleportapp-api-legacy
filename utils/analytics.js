@@ -3,7 +3,8 @@ const analytics = process.env.SEGMENT_KEY ? new Segment(process.env.SEGMENT_KEY)
 
 module.exports.AnalyticsEvents = {
     CREATE_CONVERSATION: 'CREATE_CONVERSATION',
-    ADD_CONTACT: 'ADD_CONTACT'
+    ADD_CONTACT: 'ADD_CONTACT',
+    LEAVE_CONVERSATION: 'LEAVE_CONVERSATION'
 };
 
 module.exports.identifyUser = function(user){

@@ -33,7 +33,10 @@ class ConversationSocket {
                 const contactSocket = this.getSocketForUser(contactId);
                 console.debug(`Sending 'join-conversation' to ${contactId}`);
                 contactSocket.emit('join-conversation', {channel});
-                trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId}, user);
+                trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId, conversationId: channel}, user);
+            });
+            socket.on('leave-conversation', ({channel, isLastOne}) => {
+                trackEvent(AnalyticsEvents.LEAVE_CONVERSATION, {conversationId: channel, isLastOne}, user);
             });
         });
     }
