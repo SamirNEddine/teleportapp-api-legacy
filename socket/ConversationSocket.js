@@ -35,7 +35,7 @@ class ConversationSocket {
                 contactSocket.emit('join-conversation', {channel});
                 trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId, conversationId: channel}, user);
             });
-            socket.on('user-answered', ({channel}) => {
+            socket.on('answered-conversation-request', ({channel}) => {
                 trackEvent(AnalyticsEvents.ANSWER_CONVERSATION_REQUEST, {conversationId: channel}, user);
             });
             socket.on('leave-conversation', ({channel, isLastOne}) => {
