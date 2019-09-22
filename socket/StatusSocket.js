@@ -76,11 +76,13 @@ class StatusSocket {
         try{
             const onlineUsers = await getOnlineUsersCache(user);
             const currentStatus = onlineUsers[String(user.id)];
-            onlineUsers[String(user.id)] = status;
-            updateOnlineUsersCache(onlineUsers, user);
-            //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
-            if(status !== 'busy' && currentStatus !== 'busy'){
-                trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
+            if(currentStatus !== status){
+                onlineUsers[String(user.id)] = status;
+                updateOnlineUsersCache(onlineUsers, user);
+                //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
+                if(status !== 'busy' && currentStatus !== 'busy'){
+                    trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
+                }
             }
         }catch (e) {
             console.debug('Redis Error:', e);

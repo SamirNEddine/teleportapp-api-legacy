@@ -38,8 +38,8 @@ class ConversationSocket {
             socket.on('answered-conversation-request', ({channel}) => {
                 trackEvent(AnalyticsEvents.ANSWER_CONVERSATION_REQUEST, {conversationId: channel}, user);
             });
-            socket.on('leave-conversation', ({channel, isLastOne}) => {
-                trackEvent(AnalyticsEvents.LEAVE_CONVERSATION, {conversationId: channel, isLastOne}, user);
+            socket.on('leave-conversation', ({channel, leftManually}) => {
+                trackEvent(AnalyticsEvents.LEAVE_CONVERSATION, {conversationId: channel, leftManually}, user);
             });
         });
     }
