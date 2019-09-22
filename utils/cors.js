@@ -12,6 +12,10 @@ const corsOptions = {
     }
 };
 
-module.exports.getServerCors = function () {
+module.exports.getGraphqlCORS = function () {
     return cors(corsOptions);
+};
+
+module.exports.getStatusCORS = function () {
+    return cors();
 };

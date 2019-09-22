@@ -3,11 +3,11 @@ const { setupSentry } = require('./utils/sentry');
 const { connectToDb } = require('./utils/mongoose');
 const express = require('express');
 const graphqlHTTP = require('express-graphql');
-const { getServerCors } = require('./utils/cors');
+const { getGraphqlCORS, getStatusCORS } = require('./utils/cors');
 const socket = require('socket.io');
 const ConversationSocket = require('./socket/ConversationSocket');
 const StatusSocket = require('./socket/StatusSocket');
-const { httpRequestAuth, socketAuth } = require('./middleware/authentication');
+const { httpRequestAuth } = require('./middleware/authentication');
 
 /** Sentry **/
 setupSentry();
@@ -18,15 +18,13 @@ connectToDb();
 /** Express app **/
 const app = express();
 
-/** Cors **/
-app.use(getServerCors());
-
 /** graphQL setup **/
 //Graphql Schema
 const schema = require('./graphql/schema');
 //Add it to the express app as a middleware
 app.use(
     '/graphql',
+    getGraphqlCORS(),
     httpRequestAuth,
     graphqlHTTP( req => ({
         schema,
@@ -39,7 +37,7 @@ app.use(
 );
 
 /** Server status endpoint **/
-app.use('/status', function (req, res) {
+app.use('/status', getStatusCORS(), function (req, res) {
     res.status(200).send("200 OK: Server is up and running!");
 });
 
