@@ -1,6 +1,11 @@
 const Segment = require('analytics-node');
 const analytics = process.env.SEGMENT_KEY ? new Segment(process.env.SEGMENT_KEY) : null;
 
+module.exports.AnalyticsEvents = {
+    CREATE_CONVERSATION: 'CREATE_CONVERSATION',
+    ADD_CONTACT: 'ADD_CONTACT'
+};
+
 module.exports.identifyUser = function(user){
     if(analytics){
         analytics.identify({
@@ -29,7 +34,7 @@ module.exports.linkUserToGroup = function(user, groupId, groupType, groupPropert
     }
 };
 
-module.exports.trackEvent = function(user, eventName, eventProperties) {
+module.exports.trackEvent = function(eventName, eventProperties, user) {
     if(analytics){
         analytics.track({
             userId: user.id,
