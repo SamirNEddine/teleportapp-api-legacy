@@ -1,6 +1,8 @@
 const graphql = require('graphql');
 const { inputFields } = require('../type');
-const { singUpUserResolver, loginUserResolver } = require('./resolvers');
+const { singUpUserResolver, loginUserResolver, forceIdentifyUsers } = require('./resolvers');
+const { authenticatedResolver } = require('../../../utils/authentication');
+const { authorizedResolver, AccessLevels } = require('../../../utils/authorization');
 
 const {
     GraphQLString
@@ -17,9 +19,14 @@ const loginUser = {
     args: inputFields.loginUser,
     resolve: loginUserResolver
 };
+const superAdminForceIdentifyUsers = {
+    type: GraphQLString,
+    resolve: authenticatedResolver(authorizedResolver(forceIdentifyUsers, AccessLevels.SUPER_ADMIN))
+};
 
 /** Exports **/
 module.exports = {
     singUpUser,
-    loginUser
+    loginUser,
+    superAdminForceIdentifyUsers
 };

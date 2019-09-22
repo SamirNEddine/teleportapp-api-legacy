@@ -15,7 +15,7 @@ module.exports.identifyUser = function(user){
     }
 };
 
-module.exports.linkUserToGroup = function(user, groupId, groupType, groupProperties){
+module.exports.linkUserToGroup = function(user, groupId, groupType, groupProperties={}){
     if (analytics){
         analytics.group({
             userId: user.id,
