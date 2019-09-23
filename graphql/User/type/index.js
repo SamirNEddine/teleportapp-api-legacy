@@ -102,6 +102,9 @@ module.exports.inputFields = {
     refreshUserVoxeetAccessToken: {
         refreshToken:{type: NonNull(GraphQLString)}
     },
+    invalidateUserVoxeetAccessToken: {
+        accessToken:{type: NonNull(GraphQLString)}
+    },
     singUpUser:{
         firstName: {type: NonNull(GraphQLString)},
         lastName: {type: NonNull(GraphQLString)},

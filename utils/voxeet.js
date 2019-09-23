@@ -46,3 +46,12 @@ module.exports.refreshVoxeetToken = async function(refreshToken){
     const response = await axios(request);
     return response.data.access_token;
 };
+
+module.exports.invalidateVoxeetAccessToken = async function (accessToken) {
+    let request = Object.assign({}, requests.invalidate);
+    request.data = {
+        'access_token': accessToken
+    };
+    await axios(request);
+    return 'OK';
+};
