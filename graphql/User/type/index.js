@@ -72,6 +72,18 @@ module.exports.UserType = new GraphQLObjectType({
     })
 });
 
+module.exports.UserVoxeetTokens = new GraphQLObjectType({
+    name: 'UserVoxeetTokens',
+    fields: () => ({
+        accessToken: {
+            type: NonNull(GraphQLString)
+        },
+        refreshToken: {
+            type: NonNull(GraphQLString)
+        }
+    })
+});
+
 /** Input fields for queries and mutations **/
 module.exports.inputFields = {
     user: {
@@ -86,6 +98,9 @@ module.exports.inputFields = {
     },
     userOpenTalkToken: {
         sessionId:{type: NonNull(GraphQLString)}
+    },
+    refreshUserVoxeetAccessToken: {
+        refreshToken:{type: NonNull(GraphQLString)}
     },
     singUpUser:{
         firstName: {type: NonNull(GraphQLString)},
