@@ -1,6 +1,6 @@
 const graphql = require('graphql');
-const { UserType, inputFields } = require('../type');
-const { userResolver, usersResolver, userAgoraTokenResolver, openTokSessionResolver, userOpenTalkTokenResolver } = require('./resolvers');
+const { UserType, inputFields, UserVoxeetTokens } = require('../type');
+const { userResolver, usersResolver, userAgoraTokenResolver, openTokSessionResolver, userOpenTalkTokenResolver, userVoxeetAccessTokensResolver, refreshUserVoxeetAccessTokensResolver, invalidateUserVoxeetAccessTokenResolver } = require('./resolvers');
 const { authenticatedResolver } = require('../../../utils/authentication');
 const { authorizedResolver } = require('../../../utils/authorization');
 
@@ -34,11 +34,29 @@ const userOpenTalkToken = {
     args: inputFields.userOpenTalkToken,
     resolve: authenticatedResolver(authorizedResolver(userOpenTalkTokenResolver))
 };
+const userVoxeetAccessToken = {
+    type: UserVoxeetTokens,
+    resolve: authenticatedResolver(authorizedResolver(userVoxeetAccessTokensResolver))
+};
+const refreshUserVoxeetAccessToken = {
+    type: GraphQLString,
+    args: inputFields.refreshUserVoxeetAccessToken,
+    resolve: authenticatedResolver(authorizedResolver(refreshUserVoxeetAccessTokensResolver))
+};
+const invalidateUserVoxeetAccessToken = {
+    type: GraphQLString,
+    args: inputFields.invalidateUserVoxeetAccessToken,
+    resolve: authenticatedResolver(authorizedResolver(invalidateUserVoxeetAccessTokenResolver))
+};
+
 /** Exports **/
 module.exports = {
     user,
     users,
     userAgoraToken,
     openTokSession,
-    userOpenTalkToken
+    userOpenTalkToken,
+    userVoxeetAccessToken,
+    refreshUserVoxeetAccessToken,
+    invalidateUserVoxeetAccessToken
 };

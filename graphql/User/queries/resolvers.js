@@ -2,6 +2,7 @@ const User = require('../../../mongo/models/User');
 const { generateAgoraToken } = require('../../../utils/agoraToken');
 const { createNewSession, generateTokenForSession } = require('../../../utils/openTok');
 const { trackEvent, AnalyticsEvents } = require('../../../utils/analytics');
+const { getVoxeetTokens, refreshVoxeetToken, invalidateVoxeetAccessToken } = require('../../../utils/voxeet');
 
 module.exports.userResolver = async function (_, {id}, {user}) {
     try{
@@ -38,7 +39,6 @@ module.exports.userAgoraTokenResolver = async function (_, {channel}, {user}) {
         throw(error);
     }
 };
-
 module.exports.openTokSessionResolver = async function(_, args, {user}) {
     try{
         const session =  await createNewSession();
@@ -49,7 +49,30 @@ module.exports.openTokSessionResolver = async function(_, args, {user}) {
         throw(error);
     }
 };
-
 module.exports.userOpenTalkTokenResolver = function(_, {sessionId}) {
     return generateTokenForSession(sessionId);
+};
+module.exports.userVoxeetAccessTokensResolver = async function () {
+    try{
+        return await getVoxeetTokens();
+    }catch(error){
+        console.error(error);
+        throw(error);
+    }
+};
+module.exports.refreshUserVoxeetAccessTokensResolver = async function (_, {refreshToken}) {
+    try{
+        return await refreshVoxeetToken(refreshToken);
+    }catch(error){
+        console.error(error);
+        throw(error);
+    }
+};
+module.exports.invalidateUserVoxeetAccessTokenResolver = async function (_, {accessToken}) {
+    try{
+        return await invalidateVoxeetAccessToken(accessToken);
+    }catch(error){
+        console.error(error);
+        throw(error);
+    }
 };
