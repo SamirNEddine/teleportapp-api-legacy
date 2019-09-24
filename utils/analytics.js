@@ -46,6 +46,7 @@ function trackEvent(eventName, eventProperties, user) {
 module.exports.trackEvent = trackEvent;
 
 module.exports.trackEvents = function(events, user) {
+    //Todo: Check if this is necessary.
     return new Promise(function (resolve, reject) {
         try{
             if(analytics){
