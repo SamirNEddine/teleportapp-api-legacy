@@ -1,5 +1,5 @@
 const { socketAuth } = require('../middleware/authentication');
-const { trackEvent, AnalyticsEvents } = require('../utils/analytics');
+const { trackEvents, AnalyticsEvents } = require('../utils/analytics');
 
 const CONVERSATION_NAMESPACE = "conversation";
 
@@ -33,11 +33,10 @@ class ConversationSocket {
                 const contactSocket = this.getSocketForUser(contactId);
                 console.debug(`Sending 'join-conversation' to ${contactId}`);
                 contactSocket.emit('join-conversation', {channel});
-                trackEvent(AnalyticsEvents.ADD_CONTACT, {contactId, conversationId: channel}, user);
             });
             //Track analytics
-            socket.on('analytics', ({event, properties}) => {
-                trackEvent(event, properties, user);
+            socket.on('analytics', (events) => {
+                trackEvents(events, user);
             });
         });
     }
