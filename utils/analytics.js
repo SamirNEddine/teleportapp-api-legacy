@@ -2,10 +2,6 @@ const Segment = require('analytics-node');
 const analytics = process.env.SEGMENT_KEY ? new Segment(process.env.SEGMENT_KEY) : null;
 
 module.exports.AnalyticsEvents = {
-    CREATE_CONVERSATION: 'CREATE_CONVERSATION',
-    ADD_CONTACT: 'ADD_CONTACT',
-    ANSWER_CONVERSATION_REQUEST: 'ANSWER_CONVERSATION_REQUEST',
-    LEAVE_CONVERSATION: 'LEAVE_CONVERSATION',
     UPDATE_STATUS: 'UPDATE_STATUS'
 };
 
@@ -37,12 +33,21 @@ module.exports.linkUserToGroup = function(user, groupId, groupType, groupPropert
     }
 };
 
-module.exports.trackEvent = function(eventName, eventProperties, user) {
+function trackEvent(eventName, eventProperties, user) {
     if(analytics){
         analytics.track({
             userId: user.id,
             event: eventName,
             properties: eventProperties
+        });
+    }
+}
+module.exports.trackEvent = trackEvent;
+
+module.exports.trackEvents = function(events, user) {
+    if(analytics){
+        events.forEach( ({eventName, eventProperties}) => {
+            trackEvent(eventName, eventProperties, user);
         });
     }
 };

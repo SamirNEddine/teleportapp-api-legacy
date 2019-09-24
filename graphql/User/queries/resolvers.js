@@ -1,7 +1,6 @@
 const User = require('../../../mongo/models/User');
 const { generateAgoraToken } = require('../../../utils/agoraToken');
 const { createNewSession, generateTokenForSession } = require('../../../utils/openTok');
-const { trackEvent, AnalyticsEvents } = require('../../../utils/analytics');
 const { getVoxeetTokens, refreshVoxeetToken, invalidateVoxeetAccessToken } = require('../../../utils/voxeet');
 
 module.exports.userResolver = async function (_, {id}, {user}) {
@@ -41,9 +40,7 @@ module.exports.userAgoraTokenResolver = async function (_, {channel}, {user}) {
 };
 module.exports.openTokSessionResolver = async function(_, args, {user}) {
     try{
-        const session =  await createNewSession();
-        trackEvent(AnalyticsEvents.CREATE_CONVERSATION, {conversationId: session}, user);
-        return session;
+        return await createNewSession();
     }catch(error){
         console.error(error);
         throw(error);
