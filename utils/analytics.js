@@ -35,6 +35,7 @@ module.exports.linkUserToGroup = function(user, groupId, groupType, groupPropert
 
 function trackEvent(eventName, eventProperties, user) {
     if(analytics){
+        console.debug(`Tacking event ${eventName} with properties\n${eventProperties}`);
         analytics.track({
             userId: user.id,
             event: eventName,
@@ -45,9 +46,20 @@ function trackEvent(eventName, eventProperties, user) {
 module.exports.trackEvent = trackEvent;
 
 module.exports.trackEvents = function(events, user) {
-    if(analytics){
-        events.forEach( ({eventName, eventProperties}) => {
-            trackEvent(eventName, eventProperties, user);
-        });
-    }
+    return new Promise(function (resolve, reject) {
+        try{
+            if(analytics){
+                for(let i=0;i<events.length;i++){
+                    const {eventName, eventProperties} = events[i];
+                    setTimeout(function () {
+                        trackEvent(eventName, eventProperties, user);
+                    }, 1);
+                }
+                resolve();
+            }
+        }catch(error){
+            reject(error);
+        }
+
+    });
 };
