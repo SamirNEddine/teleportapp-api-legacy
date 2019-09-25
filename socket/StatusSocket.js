@@ -32,7 +32,7 @@ class StatusSocket {
         this.socket.on('connection', socket => {
             const {user, error} = socket.handshake.query;
             if (error){
-                socket.conn.close();
+                console.error('Error with STATUS socket: ', error);
                 return;
             }
             console.log("New status socket connection: ", user);

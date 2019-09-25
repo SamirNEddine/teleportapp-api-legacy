@@ -17,7 +17,7 @@ class ConversationSocket {
         this.socket.on('connection', socket => {
             const {user, error} = socket.handshake.query;
             if (error){
-                socket.conn.close();
+                console.error('Error with CONVERSATION socket: ', error);
                 return;
             }
             console.log("New conversation socket connection: ", user);
