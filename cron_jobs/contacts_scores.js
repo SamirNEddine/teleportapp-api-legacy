@@ -3,6 +3,8 @@ const { connectToDb, disconnectFromDb } = require('../utils/mongoose');
 const User = require('../mongo/models/User');
 const { BigQuery } = require('@google-cloud/bigquery');
 
+const dataset_name = process.env.BIGQUERY_ANALYTICS_DATASET_NAME;
+
 const bigQuery = new BigQuery();
 
 const ADD_CONTACT_WEIGHT = 100;
@@ -10,7 +12,7 @@ const ADD_BY_CONTACT_WEIGHT = 20;
 
 async function addContactQuery() {
     const query = `SELECT COUNT(conversation_id) as conversations, contact_id as contact, user_id as user
-      FROM \`api_dev.add_contact_view\` as ADD_CONTACT
+      FROM \`${dataset_name}.add_contact_view\` as ADD_CONTACT
       GROUP BY user, contact
       ORDER BY conversations DESC`;
     const options = {
