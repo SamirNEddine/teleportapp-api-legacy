@@ -83,7 +83,7 @@ module.exports.recommendedContactsResolver = async function (_, args, {user}) {
         const contacts = [];
         if(recommendedContactsIds.length){
             const recommendedContacts = await User.aggregate([
-                {$match: {'_id': { '$in': recommendedContactsIds.slice(0, RECOMMENDED_CONTACTS_PAGE_SIZE)}}},
+                {$match: {'_id': { '$in': recommendedContactsIds.slice(0, RECOMMENDED_CONTACTS_PAGE_SIZE)}, 'companyId': mongoose.Types.ObjectId(user.companyId)}},
                 {$addFields: {"__order": {$indexOfArray: [recommendedContactsIds, '$_id' ]}}},
                 {$sort: {"__order": 1}}
             ]).exec();
