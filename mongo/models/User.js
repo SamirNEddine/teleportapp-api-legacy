@@ -47,6 +47,9 @@ const UserSchema = Schema({
     teamId: {
         type: Schema.Types.ObjectID
     },
+    recommendedContacts: {
+        type: [String]
+    },
     role: {
         type: String,
         enum: ['user', 'admin', 'superAdmin'],
