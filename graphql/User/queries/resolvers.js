@@ -83,7 +83,7 @@ module.exports.recommendedContactsResolver = async function (_, args, {user}) {
         const contacts = [];
         if(recommendedContactsIds.length){
             const recommendedContacts = await User.aggregate([
-                {$match: {'_id': { '$in': recommendedContactsIds.slice(0, RECOMMENDED_CONTACTS_PAGE_SIZE)}, 'companyId': mongoose.Types.ObjectId(user.companyId)}},
+                {$match: {'_id': { '$in': recommendedContactsIds}, 'companyId': mongoose.Types.ObjectId(user.companyId)}},
                 {$addFields: {"__order": {$indexOfArray: [recommendedContactsIds, '$_id' ]}}},
                 {$sort: {"__order": 1}}
             ]).exec();
@@ -96,9 +96,8 @@ module.exports.recommendedContactsResolver = async function (_, args, {user}) {
         if(contacts.length < RECOMMENDED_CONTACTS_PAGE_SIZE){
             const remaining = RECOMMENDED_CONTACTS_PAGE_SIZE - contacts.length;
             const additionalContacts = await User.aggregate([
-                {$match: {'_id': { '$nin': [...recommendedContactsIds, user.id]}, 'companyId': mongoose.Types.ObjectId(user.companyId)}},
-                {$sample: {size: remaining}}
-            ]).exec();
+                {$match: {'_id': { '$nin': [...recommendedContactsIds, user.id]}, 'companyId': mongoose.Types.ObjectId(user.companyId)}}
+            ]).limit(remaining).exec();
             contacts.push(...additionalContacts.map( c => {
                 c.password = '';
                 c.id = c._id;
