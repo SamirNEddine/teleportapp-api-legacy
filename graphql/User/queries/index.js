@@ -1,8 +1,18 @@
 const graphql = require('graphql');
 const { UserType, inputFields, UserVoxeetTokens } = require('../type');
-const { userResolver, usersResolver, userAgoraTokenResolver, openTokSessionResolver, userOpenTalkTokenResolver, userVoxeetAccessTokensResolver, refreshUserVoxeetAccessTokensResolver, invalidateUserVoxeetAccessTokenResolver } = require('./resolvers');
 const { authenticatedResolver } = require('../../../utils/authentication');
 const { authorizedResolver } = require('../../../utils/authorization');
+const {
+    userResolver,
+    usersResolver,
+    userAgoraTokenResolver,
+    openTokSessionResolver,
+    userOpenTalkTokenResolver,
+    userVoxeetAccessTokensResolver,
+    refreshUserVoxeetAccessTokensResolver,
+    invalidateUserVoxeetAccessTokenResolver,
+    recommendedContactsResolver
+} = require('./resolvers');
 
 const {
     GraphQLList,
@@ -48,6 +58,10 @@ const invalidateUserVoxeetAccessToken = {
     args: inputFields.invalidateUserVoxeetAccessToken,
     resolve: authenticatedResolver(authorizedResolver(invalidateUserVoxeetAccessTokenResolver))
 };
+const recommendedContacts = {
+    type: GraphQLList(UserType),
+    resolve: authenticatedResolver(authorizedResolver(recommendedContactsResolver))
+};
 
 /** Exports **/
 module.exports = {
@@ -58,5 +72,6 @@ module.exports = {
     userOpenTalkToken,
     userVoxeetAccessToken,
     refreshUserVoxeetAccessToken,
-    invalidateUserVoxeetAccessToken
+    invalidateUserVoxeetAccessToken,
+    recommendedContacts
 };
