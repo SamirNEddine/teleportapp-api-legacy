@@ -2,6 +2,7 @@ const User = require('../../../mongo/models/User');
 const { generateAgoraToken } = require('../../../utils/agoraToken');
 const { createNewSession, generateTokenForSession } = require('../../../utils/openTok');
 const { getVoxeetTokens, refreshVoxeetToken, invalidateVoxeetAccessToken } = require('../../../utils/voxeet');
+const mongoose = require('mongoose');
 
 const RECOMMENDED_CONTACTS_PAGE_SIZE = 7;
 
@@ -95,7 +96,7 @@ module.exports.recommendedContactsResolver = async function (_, args, {user}) {
         if(contacts.length < RECOMMENDED_CONTACTS_PAGE_SIZE){
             const remaining = RECOMMENDED_CONTACTS_PAGE_SIZE - contacts.length;
             const additionalContacts = await User.aggregate([
-                {$match: {'_id': { '$nin': [...recommendedContactsIds, user.id]}}},
+                {$match: {'_id': { '$nin': [...recommendedContactsIds, user.id]}, 'companyId': mongoose.Types.ObjectId(user.companyId)}},
                 {$sample: {size: remaining}}
             ]).exec();
             contacts.push(...additionalContacts.map( c => {
