@@ -2,6 +2,9 @@ require('dotenv').config();
 const { connectToDb, disconnectFromDb } = require('../utils/mongoose');
 const User = require('../mongo/models/User');
 const { BigQuery } = require('@google-cloud/bigquery');
+const { setupSentry } = require('../utils/sentry');
+
+setupSentry();
 
 const dataset_name = process.env.BIGQUERY_ANALYTICS_DATASET_NAME;
 

@@ -1,6 +1,9 @@
 const { connectToDb } = require('../utils/mongoose');
 const User = require('../mongo/models/User');
 const { identifyUser, linkUserToGroup } = require('../utils/analytics');
+const { setupSentry } = require('../utils/sentry');
+
+setupSentry();
 
 const Tasks = {
     FORCE_IDENTIFY_ALL_USERS: 'FORCE_IDENTIFY_ALL_USERES'
