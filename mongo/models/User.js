@@ -48,7 +48,7 @@ const UserSchema = Schema({
         type: Schema.Types.ObjectID
     },
     recommendedContacts: {
-        type: [String]
+        type: [Number]
     },
     role: {
         type: String,
@@ -94,6 +94,18 @@ User.prototype.jwt = async function() {
 };
 User.prototype.verifyPassword = async function(password) {
     return await verifyPassword(password, this.password);
+};
+
+/** Static methods **/
+User.getRandomUsers = async function(companyId, excludeUserIds, maxSize) {
+    const users = await User.aggregate([
+        {$match: {'_id': { '$nin': excludeUserIds}, 'companyId': mongoose.Types.ObjectId(companyId)}},
+        {$sample: {size: maxSize}}
+    ]).exec();
+    return users.map(u => {
+        u.password = '';
+        return u;
+    });
 };
 
 /** Export **/
