@@ -10,6 +10,7 @@ const dataset_name = process.env.BIGQUERY_ANALYTICS_DATASET_NAME;
 
 const bigQuery = new BigQuery();
 
+const NUMBER_OF_RECOMMENDATIONS = 8;
 const ADD_CONTACT_WEIGHT = 100;
 const ADD_BY_CONTACT_WEIGHT = 20;
 
@@ -61,6 +62,9 @@ async function updateContactsScore(){
                 });
                 const user = await User.findById(userId);
                 if(user){
+                    if(contacts.length < NUMBER_OF_RECOMMENDATIONS){
+                        const additionalContacts = [];
+                    }
                     user.recommendedContacts = contacts.map( c => (c.contactId));
                     await user.save();
                 }else{
