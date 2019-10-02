@@ -48,7 +48,7 @@ const UserSchema = Schema({
         type: Schema.Types.ObjectID
     },
     recommendedContacts: {
-        type: [String]
+        type: [Number]
     },
     role: {
         type: String,

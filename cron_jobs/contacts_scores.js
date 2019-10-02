@@ -62,10 +62,12 @@ async function updateContactsScore(){
                 });
                 const user = await User.findById(userId);
                 if(user){
-                    if(contacts.length < NUMBER_OF_RECOMMENDATIONS){
-                        const additionalContacts = [];
-                    }
                     user.recommendedContacts = contacts.map( c => (c.contactId));
+                    console.log('Add random users');
+                    if(user.recommendedContacts.length < NUMBER_OF_RECOMMENDATIONS){
+                        const additionalContacts = await User.getRandomUsers(user.companyId, [user._id, ...user.recommendedContacts], NUMBER_OF_RECOMMENDATIONS - user.recommendedContacts.length);
+                        user.recommendedContacts = [... user.recommendedContacts, ...additionalContacts.map( c => (c._id))];
+                    }
                     await user.save();
                 }else{
                     console.warn(`User ${userid} not found in the database`);
