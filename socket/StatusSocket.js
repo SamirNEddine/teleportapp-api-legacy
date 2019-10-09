@@ -1,6 +1,6 @@
 const { socketAuth } = require('../middleware/authentication');
 const { redisGetAsync, redisSetAsync } = require('../utils/redis');
-const { trackEvent, AnalyticsEvents } = require('../utils/analytics');
+const { trackEvent, trackEvents, AnalyticsEvents } = require('../utils/analytics');
 
 const STATUS_NAMESPACE = "status";
 const CACHE_KEY = 'onlineUsers';
@@ -40,7 +40,7 @@ class StatusSocket {
             socket.broadcast.emit('status-update', {user, status:"available"});
             //Status update
             socket.on('update-status', ({status}) => {
-                console.debug(`${user} updated status to ${status}`);
+                console.debug(`${user.id} updated status to ${status}`);
                 this.updateUserStatus(user, status);
                 socket.broadcast.emit('status-update', {user, status});
             });
@@ -49,6 +49,9 @@ class StatusSocket {
                 console.log("Socket DISCONNECTED: ", user);
                 this.removeOnlineUser(user);
                 this.socket.emit('status-update', {user, status:"unavailable"});
+            });
+            socket.on('analytics', (events) => {
+                trackEvents(events, user);
             });
         });
     }
@@ -59,6 +62,7 @@ class StatusSocket {
             const onlineUsers = await getOnlineUsersCache(user);
             onlineUsers[String(user.id)] = 'available';
             updateOnlineUsersCache(onlineUsers, user);
+            trackEvent(AnalyticsEvents.USER_CONNECTED, {}, user);
         }catch(e){
             console.debug('Redis Error:', e);
         }
@@ -68,6 +72,7 @@ class StatusSocket {
             const onlineUsers = await getOnlineUsersCache(user);
             delete onlineUsers[String(user.id)];
             updateOnlineUsersCache(onlineUsers, user);
+            trackEvent(AnalyticsEvents.USER_DISCONNECTED, {}, user);
         }catch (e) {
             console.debug('Redis Error:', e);
         }
@@ -79,10 +84,6 @@ class StatusSocket {
             if(currentStatus !== status){
                 onlineUsers[String(user.id)] = status;
                 updateOnlineUsersCache(onlineUsers, user);
-                //Do not track busy because it's not triggered by the user himself. Also it can be inferred from the other events.
-                if(status !== 'busy' && currentStatus !== 'busy'){
-                    trackEvent(AnalyticsEvents.UPDATE_STATUS, {status}, user);
-                }
             }
         }catch (e) {
             console.debug('Redis Error:', e);

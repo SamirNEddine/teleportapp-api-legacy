@@ -2,7 +2,8 @@ const Segment = require('analytics-node');
 const analytics = process.env.SEGMENT_KEY ? new Segment(process.env.SEGMENT_KEY) : null;
 
 module.exports.AnalyticsEvents = {
-    UPDATE_STATUS: 'UPDATE_STATUS'
+    USER_CONNECTED: 'USER_CONNECTED',
+    USER_DISCONNECTED: 'USER_DISCONNECTED'
 };
 
 module.exports.identifyUser = function(user){
@@ -35,7 +36,7 @@ module.exports.linkUserToGroup = function(user, groupId, groupType, groupPropert
 
 function trackEvent(eventName, eventProperties, user) {
     if(analytics){
-        console.debug(`Tacking event ${eventName} with properties\n${eventProperties}`);
+        console.debug(`Tacking event ${eventName} with properties`, eventProperties);
         analytics.track({
             userId: user.id,
             event: eventName,
