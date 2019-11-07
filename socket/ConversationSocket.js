@@ -32,7 +32,7 @@ class ConversationSocket {
                 console.log('Add contact', contactId, ' to channel ', channel);
                 const contactSocket = this.getSocketForUser(contactId);
                 console.debug(`Sending 'join-conversation' to ${contactId}`);
-                contactSocket.emit('join-conversation', {channel});
+                contactSocket.emit('join-conversation', {channel, invitingContactId: user.id});
             });
             //Track analytics
             socket.on('analytics', (events) => {
