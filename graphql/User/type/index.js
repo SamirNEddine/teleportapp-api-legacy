@@ -122,6 +122,6 @@ module.exports.inputFields = {
         password: {type: NonNull(GraphQLString)}
     },
     searchUsers: {
-        token: {type: NonNull(GraphQLString)}
+        queryString: {type: NonNull(GraphQLString)}
     },
 };
