@@ -120,5 +120,8 @@ module.exports.inputFields = {
     loginUser:{
         email: {type: NonNull(GraphQLString)},
         password: {type: NonNull(GraphQLString)}
-    }
+    },
+    searchUsers: {
+        queryString: {type: NonNull(GraphQLString)}
+    },
 };

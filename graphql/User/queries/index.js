@@ -11,7 +11,8 @@ const {
     userVoxeetAccessTokensResolver,
     refreshUserVoxeetAccessTokensResolver,
     invalidateUserVoxeetAccessTokenResolver,
-    recommendedContactsResolver
+    recommendedContactsResolver,
+    searchUsersResolver
 } = require('./resolvers');
 
 const {
@@ -62,6 +63,11 @@ const recommendedContacts = {
     type: GraphQLList(UserType),
     resolve: authenticatedResolver(authorizedResolver(recommendedContactsResolver))
 };
+const searchUsers = {
+    type: GraphQLList(UserType),
+    args: inputFields.searchUsers,
+    resolve: authenticatedResolver(authorizedResolver(searchUsersResolver))
+};
 
 /** Exports **/
 module.exports = {
@@ -73,5 +79,6 @@ module.exports = {
     userVoxeetAccessToken,
     refreshUserVoxeetAccessToken,
     invalidateUserVoxeetAccessToken,
-    recommendedContacts
+    recommendedContacts,
+    searchUsers
 };
