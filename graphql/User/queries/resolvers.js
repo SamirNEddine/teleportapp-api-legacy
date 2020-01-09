@@ -110,3 +110,23 @@ module.exports.recommendedContactsResolver = async function (_, args, {user}) {
         throw(error);
     }
 };
+module.exports.searchUsersResolver = async function(_, {token, companyId}, {user}) {
+    try {
+        companyId = companyId ? companyId : user.companyId;
+        let results = await User.find({
+            companyId,
+            $or: [{firstName: { $regex: `^${token}.*`, $options: "i" }}, {lastName: { $regex: `^${token}.*`, $options: "i" }}]
+        });
+        //Remove me
+        results = results.filter(u => {
+            return u._id !== user.id;
+        });
+        return results.map( u => {
+            u.password = '';
+            return u;
+        });
+    }catch(error){
+        console.error(error);
+        throw(error);
+    }
+};
